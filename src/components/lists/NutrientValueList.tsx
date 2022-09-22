@@ -2,11 +2,15 @@ import Select from "../ui/Select";
 
 const NutrientValueInputListItem: React.FC<{}> = (props) => {
   return (
-    <div>
+    <form>
       <Select />
-      <input type='number' placeholder='Target Value' />
+      <input name='value' type='number' placeholder='Placeholder plz change' />
+      <input id='nutrient-value-input-scalar' name='value-type' value='scalar' type='radio' defaultChecked />
+      <label htmlFor='nutrient-value-input-scalar'>Grams (TODO)</label>
+      <input id='nutrient-value-input-dv' name='value-type' value='dv-pct' type='radio' />
+      <label htmlFor='nutrient-value-input-dv'>DV%</label>
       <button>Add</button>
-    </div>
+    </form>
   );
 }
 
@@ -23,7 +27,6 @@ const NutrientValueLabelListItem: React.FC<NutrientValueLabelListItemProps> = (p
     </div>
   );
 }
-
 
 interface NutrientValueListProps {
   description: string,

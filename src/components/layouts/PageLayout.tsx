@@ -1,9 +1,13 @@
+import { useContext } from 'react';
+import AuthContext from "../../store/auth-context";
 import HeaderNavigation from "../navigation/HeaderNavigation";
 
 const PageLayout: React.FC<{children: React.ReactNode}> = (props) => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <div>
-      <HeaderNavigation />
+      {authCtx.isLoggedIn && <HeaderNavigation />}
       <main>
         {props.children}
       </main>

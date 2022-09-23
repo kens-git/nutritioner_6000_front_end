@@ -4,7 +4,7 @@ const NutrientValueInputListItem: React.FC<{}> = (props) => {
   return (
     <form>
       <Select />
-      <input name='value' type='number' placeholder='Placeholder plz change' />
+      <input name='value' type='number' required placeholder='Placeholder plz change' />
       <input id='nutrient-value-input-scalar' name='value-type' value='scalar' type='radio' defaultChecked />
       <label htmlFor='nutrient-value-input-scalar'>Grams (TODO)</label>
       <input id='nutrient-value-input-dv' name='value-type' value='dv-pct' type='radio' />

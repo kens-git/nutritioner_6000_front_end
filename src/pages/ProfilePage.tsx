@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import AuthContext from '../store/auth-context';
 import NutrientValueList from "../components/lists/NutrientValueList";
 
 // TODO: make global strings + check out localization
@@ -10,6 +12,8 @@ value for a particular nutrient is given as a percentage. The default values are
 Health Canada's document, Nutrition Labeling: Table of Daily Values.`;
 
 const ProfilePage: React.FC<{}> = (props) => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <div>
       <NutrientValueList description={TARGET_DESCRIPTION} />

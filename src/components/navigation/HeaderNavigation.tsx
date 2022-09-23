@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../store/auth-context';
 
 const HeaderNavigation: React.FC<{}> = props => {
+  const authCtx = useContext(AuthContext);
+
+  const onLogout = () => {
+    authCtx.logout();
+  }
+
   return (
     <header>
       <nav>
@@ -15,6 +22,9 @@ const HeaderNavigation: React.FC<{}> = props => {
           </li>
           <li>
             <Link to='/profile'>Profile</Link>
+          </li>
+          <li>
+            <button onClick={onLogout}>Logout</button>
           </li>
         </ul>
       </nav>

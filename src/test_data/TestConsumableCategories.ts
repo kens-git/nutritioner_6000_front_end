@@ -1,4 +1,4 @@
-import ConsumableCategory from '../models/ConsumableCategory'
+import ConsumableCategory from '../models/types/ConsumableCategory'
 import { NAME_DAIRY, NAME_FRUIT, NAME_MEAT } from '../test_data/TestNames'
 
 export const CATEGORY_DAIRY: ConsumableCategory = {

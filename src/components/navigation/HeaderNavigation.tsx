@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../store/auth-context';
+import AuthContext from '../../store/AuthContext';
 
 const HeaderNavigation: React.FC<{}> = props => {
   const authCtx = useContext(AuthContext);

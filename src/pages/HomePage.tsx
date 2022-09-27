@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import AuthContext from "../store/auth-context";
+import AuthContext from "../store/AuthContext";
 import InputIntakeForm from "../components/forms/InputIntakeForm";
 import Table from "../components/table/Table";
 

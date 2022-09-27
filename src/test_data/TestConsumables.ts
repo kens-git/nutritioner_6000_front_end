@@ -1,4 +1,4 @@
-import Consumable from "../models/Consumable";
+import Consumable from "../models/types/Consumable";
 import { CATEGORY_DAIRY, CATEGORY_FRUIT, CATEGORY_MEAT } from "./TestConsumableCategories";
 import { NAME_APPLE, NAME_BACON, NAME_BANANA, NAME_MILK,
   NAME_STEAK } from "./TestNames";

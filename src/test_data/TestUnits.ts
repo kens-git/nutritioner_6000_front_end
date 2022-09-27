@@ -1,4 +1,4 @@
-import Unit from "../models/Unit";
+import Unit from "../models/types/Unit";
 import { NAME_GRAM, NAME_MICROGRAM,
   NAME_MILLIGRAM } from '../test_data/TestNames'
 

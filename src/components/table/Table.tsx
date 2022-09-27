@@ -1,7 +1,7 @@
 import { isStringLiteralLike } from "typescript";
-import ConsumableNutrient from "../../models/ConsumableNutrient";
-import Intake from "../../models/Intake";
-import Nutrient from "../../models/Nutrient";
+import ConsumableNutrient from "../../models/types/ConsumableNutrient";
+import Intake from "../../models/types/Intake";
+import Nutrient from "../../models/types/Nutrient";
 import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
 import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";

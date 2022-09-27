@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import AuthContext from '../store/auth-context';
+import AuthContext from '../store/AuthContext';
 import NutrientValueList from "../components/lists/NutrientValueList";
 
 // TODO: make global strings + check out localization

@@ -1,4 +1,4 @@
-import Name from "../models/Name";
+import Name from "../models/types/Name";
 
 // ConsumableCategories
 export const NAME_DAIRY: Name = {

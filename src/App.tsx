@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { BrowserRouter, Navigate, Route,
   Routes } from 'react-router-dom';
 import AddPage from './pages/AddPage';
-import AuthContext from './store/auth-context';
+import AuthContext from './store/AuthContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import PageLayout from './components/layouts/PageLayout';

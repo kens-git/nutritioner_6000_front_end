@@ -1,7 +1,7 @@
 import { createRef, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AuthContext, { AuthContextData } from '../store/auth-context';
+import AuthContext, { AuthContextData } from '../store/AuthContext';
 
 const LoginPage: React.FC<{}> = (props) => {
   const usernameRef = createRef<HTMLInputElement>();

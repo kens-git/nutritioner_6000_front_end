@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { AuthContextProvider } from './store/AuthContext';
+import DataProviders from './store/DataProviders';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <App />
+      <DataProviders>
+        <App />
+      </DataProviders>
     </AuthContextProvider>
   </React.StrictMode>
 );

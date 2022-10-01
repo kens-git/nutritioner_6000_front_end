@@ -15,17 +15,16 @@ const App: React.FC<{}> = () => {
     <BrowserRouter>
       <PageLayout>
         <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          {authContext.isLoggedIn &&
-            <>
-              <Route path='/' element={<HomePage />} />
-              <Route path='/add' element={<AddPage />} />
-              <Route path='/profile' element={<ProfilePage />} />
-            </>
+          {!authContext.isLoggedIn() ?
+            <Route path='/login' element={<LoginPage />} />
+            : <>
+                <Route path='/' element={<HomePage />} />
+                <Route path='/add' element={<AddPage />} />
+                <Route path='/profile' element={<ProfilePage />} />
+              </>
           }
           <Route path='*' element={<Navigate
-            to={authContext.isLoggedIn ? '/' : '/login'} />}
-          />
+            to={authContext.isLoggedIn() ? '/' : '/login'} />} />
         </Routes>
       </PageLayout>
     </BrowserRouter>

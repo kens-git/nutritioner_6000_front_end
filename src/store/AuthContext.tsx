@@ -2,46 +2,66 @@ import React from 'react'
 import { useState } from 'react'
 
 export interface AuthContextData {
-  token: string;
-  isLoggedIn: boolean;
-  login(token: string): void;
+  token: string | null;
+  user_id: string | null;
+  isLoggedIn(): boolean;
+  login(user_id: string, token: string): void;
   logout(): void;
 }
 
 const AuthContext =
   React.createContext<AuthContextData>({
-    token: '',
-    isLoggedIn: false,
-    login: (token: string) => {},
+    token: null,
+    user_id: null,
+    isLoggedIn: () => { return false; },
+    login: (user_id: string, token: string) => {},
     logout: () => {}
   });
 
+interface LoginData {
+  token: string | null;
+  user_id: string | null;
+}
+
 export const AuthContextProvider:
     React.FC<{children: React.ReactNode}> = (props) => {
-  const [token, setToken] = useState<string>(
-    (() => {
-      const token = sessionStorage.getItem('token');
-      if(token) {
-        return token;
+  const [loginData, setLoginData] = useState<LoginData>(
+    ((): LoginData => {
+      return {
+        token: sessionStorage.getItem('token'),
+        user_id: sessionStorage.getItem('user_id')
       }
-      return ''
-    })()
-  );
+    })());
 
-  const isLoggedIn = !!token;
+  const isLoggedIn = () => {
+    console.log('Is logged in: ');
+    console.log(loginData.token !== null &&
+      loginData.user_id !== null);
+    return loginData.token !== null &&
+      loginData.user_id !== null;
+  }
 
-  const onLogin = (token: string) => {
-    setToken(token);
+  const onLogin = (user_id: string, token: string) => {
+    setLoginData({
+      token: token,
+      user_id: user_id
+    });
     sessionStorage.setItem('token', token);
+    sessionStorage.setItem('user_id', user_id);
   }
 
   const onLogout = () => {
-    setToken('');
+    setLoginData({
+      token: null,
+      user_id: null
+    });
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user_id');
   }
 
   const contextValue: AuthContextData = {
-    token: token,
+    token: loginData.token,
+    user_id: loginData.user_id,
     isLoggedIn: isLoggedIn,
     login: onLogin,
     logout: onLogout

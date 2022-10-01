@@ -1,4 +1,4 @@
-import Nutrient from '../models/types/Nutrient'
+import Nutrient from '../types/Nutrient'
 import { NAME_BIOTIN, NAME_CARBOHYDRATES, NAME_COPPER,
   NAME_FAT, NAME_IODIDE, NAME_IRON, NAME_PROTEIN,
   NAME_ZINC } from '../test_data/TestNames'

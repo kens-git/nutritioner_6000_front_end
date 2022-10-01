@@ -1,7 +1,7 @@
 import { isStringLiteralLike } from "typescript";
-import ConsumableNutrient from "../../models/types/ConsumableNutrient";
-import Intake from "../../models/types/Intake";
-import Nutrient from "../../models/types/Nutrient";
+import ConsumableNutrient from "../../types/ConsumableNutrient";
+import Intake from "../../types/Intake";
+import Nutrient from "../../types/Nutrient";
 import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
 import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
@@ -100,6 +100,8 @@ const get_row_data = (columns: Columns,
 }
 
 const Table: React.FC<{}> = (props) => {
+  // get all nutrients -> get_column_data
+  // get all intakes for day -> get_row_data
   const columns = get_column_data(TEST_NUTRIENTS);
   const row_data = get_row_data(columns, TEST_INTAKES);
   return (

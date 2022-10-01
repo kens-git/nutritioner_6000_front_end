@@ -1,4 +1,4 @@
-import Intake from "../models/types/Intake";
+import Intake from "../types/Intake";
 import { CONSUMABLE_APPLE, CONSUMABLE_BACON, CONSUMABLE_BANANA,
   CONSUMABLE_MILK, CONSUMABLE_STEAK } from "./TestConsumables";
 

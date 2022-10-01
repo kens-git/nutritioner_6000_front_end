@@ -1,29 +1,29 @@
-import { createRef, useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import AuthContext, { AuthContextData } from '../store/AuthContext';
+import { GET, POST } from '../utility/Requests';
+import Login from '../types/Login';
+import LoginResponse from '../types/response/LoginResponse';
 
 const LoginPage: React.FC<{}> = (props) => {
-  const usernameRef = createRef<HTMLInputElement>();
-  const passwordRef = createRef<HTMLInputElement>();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [loginError, setLoginError] = useState<string>('');
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    axios.post('http://localhost:8000/api/login', {
+    POST<Login, LoginResponse>('login', {
       username: usernameRef.current!.value,
       password: passwordRef.current!.value
-    }).then(res => {
-      authCtx.login(res.data.token);
+    }).then(response => {
+      console.log(response);
+      authCtx.login(response!.data.user_id.toString(),
+        response!.data.token);
       setLoginError('');
       navigate('/');
-    }).catch((error) => {
-      if(error.response) {
-        // TODO: proper error handling
-        setLoginError(error.response.data.non_field_errors[0]);
-      }
     });
   };
 

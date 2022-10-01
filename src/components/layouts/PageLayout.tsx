@@ -7,7 +7,7 @@ const PageLayout: React.FC<{children: React.ReactNode}> = (props) => {
 
   return (
     <div>
-      {authCtx.isLoggedIn && <HeaderNavigation />}
+      {authCtx.isLoggedIn() && <HeaderNavigation />}
       <main>
         {props.children}
       </main>

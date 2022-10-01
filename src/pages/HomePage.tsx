@@ -12,16 +12,6 @@ const HomePage: React.FC<{}> = (props) => {
   const onDateChange: React.ChangeEventHandler<HTMLInputElement> =
       (event) => {
     setDate(event.currentTarget.value);
-    if(authCtx.isLoggedIn) {
-      axios.get('http://localhost:8000/api/name', {
-        headers: {
-          'Authorization': `Token ${authCtx.token}`,
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
-        console.log(res.data);
-      });
-    }
   }
 
   return (

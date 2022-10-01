@@ -1,11 +1,13 @@
-import Select from "../ui/Select";
+import Select, { extractNameItem } from "../ui/Select";
+import NameDataContext from '../../store/NameDataContext';
 
 const NewConsumableCategoryForm: React.FC<{}> = (props) => {
   return (
     <form>
       <div>
         <label htmlFor='new-consumable-category-name'>Name</label>
-        <Select id='new-consumable-category-name' name='name' />
+        <Select id='new-consumable-category-name' name='name' dataContext={NameDataContext}
+          extractItem={extractNameItem}/>
       </div>
       <div>
         <label htmlFor='new-consumable-category-description'>Description</label>

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../../store/AuthContext';
 
 const link_classes = 'flex-1 flex \
-bg-sky-300 hover:bg-sky-200 text-green-800 \
-hover:h-[120%] hover:border-b-2 hover:border-b-orange-400';
+bg-sky-300 hover:bg-sky-200 \
+hover:h-[110%] hover:border-b-2 hover:border-b-sky-300';
 const link_classes_flex = link_classes + ' flex';
 
 const HeaderNavigation: React.FC<{}> = props => {

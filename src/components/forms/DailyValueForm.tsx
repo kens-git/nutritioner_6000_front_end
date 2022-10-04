@@ -1,4 +1,5 @@
 import NutrientValueList from "../lists/NutrientValueList";
+import { button_classes } from "../tailwind_classes";
 
 const DESCRIPTION = `Daily values are reference values used to convert micronutrient \
 percentage values to a value with a unit. For instance, if the daily value for Vitamin C is
@@ -9,9 +10,9 @@ Health Canada's document, Nutrition Labeling: Table of Daily Values.`;
 
 const DailyValueForm: React.FC<{}> = (props) => {
   return (
-    <form>
-      <NutrientValueList title='Daily Values' description={DESCRIPTION} />
-      <button type='submit'>Submit</button>
+    <form className='max-w-lg grid grid-cols-2 gap-2'>
+      <NutrientValueList className='col-span-2' title='Daily Values' description={DESCRIPTION} />
+      <button className={button_classes + ' col-span-2'} type='submit'>Submit</button>
     </form>
   );
 }

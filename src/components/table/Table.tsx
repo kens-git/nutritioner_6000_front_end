@@ -19,6 +19,7 @@ type ColumnMap = Map<NutrientId, ColumnIndex>;
 interface ColumnDetails {
   nutrient_id: number;
   name: string;
+  target: number;
   total: number;
   is_used: boolean;
 }
@@ -58,7 +59,9 @@ const get_column_data = (nutrients: Nutrient[]) => {
     columns.nutrient_map.set(nutrient.id, index);
     columns.details.push({
       nutrient_id: nutrient.id,
-      name: nutrient.name.name,
+      name: nutrient.name.name + ' (' +
+        nutrient.unit.name.abbreviation + ')',
+      target: 0,
       total: 0,
       is_used: false
     });
@@ -105,58 +108,75 @@ const Table: React.FC<{}> = (props) => {
   const columns = get_column_data(TEST_NUTRIENTS);
   const row_data = get_row_data(columns, TEST_INTAKES);
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Time</th>
-          <th>Serving Size</th>
-          <th>Unit</th>
-          {columns.details.map((details, index, array) => {
-            if(!details.is_used) {
-              return null;
-            }
-            return <th>{details.name}</th>
+    <div className='overflow-auto'>
+      <table className='mt-2 w-full text-left'>
+        <thead className='text-gray-700 italic border-b-2 border-b-sky-300'>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Time</th>
+            <th>Size</th>
+            <th>Unit</th>
+            {columns.details.map((details, index, array) => {
+              if(!details.is_used) {
+                return null;
+              }
+              return <th className='text-right'>{details.name}</th>
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {row_data.map((row, index, array) => {
+            return (
+              <tr>
+                <td>{row.name}</td>
+                <td>{row.category}</td>
+                {/* TODO: date is redundant because the date
+                          input shows the current date */}
+                <td>{row.timestamp.toLocaleTimeString()}</td>
+                <td>{row.intake_size}</td>
+                <td>{row.unit}</td>
+                {row.nutrient_values.map((value, index, array) => {
+                  if(!columns.details[index].is_used) {
+                    return null;
+                  }
+                  // leave cell empty if the data is null
+                  return <td className='text-right'>{value || ''}</td>
+                })}
+              </tr>
+            );
           })}
-        </tr>
-      </thead>
-      <tbody>
-        {row_data.map((row, index, array) => {
-          return (
-            <tr>
-              <td>{row.name}</td>
-              <td>{row.category}</td>
-              {/* TODO: date is redundant because the date
-                        input shows the current date */}
-              <td>{row.timestamp.toLocaleString()}</td>
-              <td>{row.intake_size}</td>
-              <td>{row.unit}</td>
-              {row.nutrient_values.map((value, index, array) => {
-                if(!columns.details[index].is_used) {
-                  return null;
-                }
-                // leave cell empty if the data is null
-                return <td>{value || ''}</td>
-              })}
-            </tr>
-          );
-        })}
-        <tr>
-          <td>Total</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          {columns.details.map((details, index, array) => {
-            if(!details.is_used) {
-              return null;
-            }
-            return <td>{details.total}</td>
-          })}
-        </tr>
-      </tbody>
-    </table>
+          <tr className='h-4'></tr>
+          <tr>
+            <td>Target</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {columns.details.map((details, index, array) => {
+              if(!details.is_used) {
+                return null;
+              }
+              return <td className='text-right'>{details.target / details.total}</td>
+            })}
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            {columns.details.map((details, index, array) => {
+              if(!details.is_used) {
+                return null;
+              }
+              const bg_color = 'bg-[#FFAAFF]'
+              return <td className={`${bg_color} text-right`}>{details.total}</td>
+            })}
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }
 

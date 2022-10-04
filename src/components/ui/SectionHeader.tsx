@@ -4,7 +4,7 @@ interface SectionHeaderProps {
 
 const SectionHeader: React.FC<SectionHeaderProps> = (props) => {
   return (
-    <h1 className='text-3xl pt-5 text-gray-800'>
+    <h1 className='text-3xl mb-2 text-gray-800'>
       {props.label}
     </h1>
   )

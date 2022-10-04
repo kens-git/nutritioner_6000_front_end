@@ -5,6 +5,8 @@ import AuthContext, { AuthContextData } from '../store/AuthContext';
 import { GET, POST } from '../utility/Requests';
 import Login from '../types/Login';
 import LoginResponse from '../types/response/LoginResponse';
+import { button_classes, input_classes }
+  from '../components/tailwind_classes';
 
 const LoginPage: React.FC<{}> = (props) => {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -33,15 +35,15 @@ const LoginPage: React.FC<{}> = (props) => {
         {loginError.length !== 0 && <div><p>{loginError}</p></div>}
         <div className='my-2 flex flex-row justify-between items-center'>
           <label htmlFor='login-form-username'>Username</label>
-          <input className='p-1.5 border border-sky-300 rounded' type='text' name='username' required
+          <input className={input_classes} type='text' name='username' required
             ref={usernameRef}/>
         </div>
         <div className='mb-2 flex flex-row justify-between items-center'>
           <label className='' htmlFor='login-form-password'>Password</label>
-          <input className='p-1.5 border border-sky-300 rounded' type='password' name='password' required
+          <input className={input_classes} type='password' name='password' required
             ref={passwordRef} />
         </div>
-        <button className='h-10 rounded-md bg-sky-300 hover:bg-sky-200' type='submit'>Login</button>
+        <button className={button_classes} type='submit'>Login</button>
       </form>
     </div>
   );

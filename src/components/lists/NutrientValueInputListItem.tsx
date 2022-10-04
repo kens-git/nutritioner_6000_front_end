@@ -3,6 +3,8 @@ import ConsumableNutrient from '../../types/ConsumableNutrient';
 import Nutrient from '../../types/Nutrient';
 import NutrientDataContext from '../../store/NutrientDataContext';
 import Select, { extractNutrientItem } from '../ui/Select';
+import { button_classes, form_classes, input_classes }
+  from '../tailwind_classes';
 
 export interface NutrientValueListItemData {
   nutrient_id: number;
@@ -50,17 +52,17 @@ const NutrientValueInputListItem:
   }
 
   return (
-    <div>
+    <div className={form_classes}>
       <Select ref={selectRef} onChange={onInputChange} id='nutrient-value-nutrient-name'
         name='name' dataContext={NutrientDataContext} extractItem={extractNutrientItem} />
-      <input ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
+      <input className={input_classes + ' w-28'} ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
         placeholder='Value' />
       <input ref={scalarRef} id='nutrient-value-input-scalar' name='value-type'
         value='scalar' type='radio' defaultChecked />
       <label htmlFor='nutrient-value-input-scalar'>{unit}</label>
       <input id='nutrient-value-input-dv' name='value-type' value='dv-pct' type='radio' />
       <label htmlFor='nutrient-value-input-dv'>DV%</label>
-      <button onClick={onAddButtonClick}>Add</button>
+      <button className={button_classes} onClick={onAddButtonClick}>Add</button>
     </div>
   );
 }

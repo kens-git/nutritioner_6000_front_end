@@ -11,6 +11,7 @@ import SectionHeader from "../ui/SectionHeader";
 interface NutrientValueListProps {
   title: string;
   description: string;
+  className?: string;
 }
 
 const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
@@ -43,10 +44,14 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
     setList(updated_list.filter((item, index) => { return index !== removed_index; }));
   }
 
+  const classes = props.className ? props.className! : '';
+
   return (
-    <div>
+    <div className={classes}>
       <SectionHeader label={props.title}/>
-      <h2>{props.description}</h2>
+      <h2 className='mb-2'>{props.description}</h2>
+      {list.length == 0 &&
+        <h2 className='italic text-gray-500'>No data to display.</h2>}
       {list.map((nutrient, index) => {
         return <NutrientValueLabelListItem
           key={index}

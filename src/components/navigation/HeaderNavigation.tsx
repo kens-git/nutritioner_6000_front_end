@@ -2,6 +2,11 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../store/AuthContext';
 
+const link_classes = 'flex-1 flex \
+bg-sky-300 hover:bg-sky-200 text-green-800 \
+hover:h-[120%] hover:border-b-2 hover:border-b-orange-400';
+const link_classes_flex = link_classes + ' flex';
+
 const HeaderNavigation: React.FC<{}> = props => {
   const authCtx = useContext(AuthContext);
 
@@ -11,22 +16,19 @@ const HeaderNavigation: React.FC<{}> = props => {
 
   return (
     <header>
-      <nav>
-        <ul>
-          <li>
-            <Link to='/'>Home</Link>
-          </li>
-          <li>
-            {/* TODO: update name */}
-            <Link to='/add'>Add</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Profile</Link>
-          </li>
-          <li>
-            <button onClick={onLogout}>Logout</button>
-          </li>
-        </ul>
+      <nav className='flex flex-row items-stretch h-10'>
+        <Link id='home' className={link_classes} to='/'>
+          <span className='m-auto'>Home</span>
+        </Link>
+        <Link className={link_classes} to='/add'>
+          <span className='m-auto'>Add</span>
+        </Link>
+        <Link className={link_classes} to='/profile'>
+          <span className='m-auto'>Profile</span>
+        </Link>
+        <a className={link_classes} onClick={onLogout}>
+          <span className='m-auto'>Logout</span>
+        </a>
       </nav>
     </header>
   );

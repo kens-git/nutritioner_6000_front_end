@@ -12,22 +12,24 @@ const App: React.FC<React.PropsWithChildren & React.HTMLAttributes<any>> = () =>
   const authContext = useContext(AuthContext);
 
   return (
-    <BrowserRouter>
-      <PageLayout>
-        <Routes>
-          {!authContext.isLoggedIn() ?
-            <Route path='/login' element={<LoginPage />} />
-            : <>
-                <Route path='/' element={<HomePage />} />
-                <Route path='/add' element={<AddPage />} />
-                <Route path='/profile' element={<ProfilePage />} />
-              </>
-          }
-          <Route path='*' element={<Navigate
-            to={authContext.isLoggedIn() ? '/' : '/login'} />} />
-        </Routes>
-      </PageLayout>
-    </BrowserRouter>
+    <div className='container mx-auto font-sans'>
+      <BrowserRouter>
+        <PageLayout>
+          <Routes>
+            {!authContext.isLoggedIn() ?
+              <Route path='/login' element={<LoginPage />} />
+              : <>
+                  <Route path='/' element={<HomePage />} />
+                  <Route path='/add' element={<AddPage />} />
+                  <Route path='/profile' element={<ProfilePage />} />
+                </>
+            }
+            <Route path='*' element={<Navigate
+              to={authContext.isLoggedIn() ? '/' : '/login'} />} />
+          </Routes>
+        </PageLayout>
+      </BrowserRouter>
+    </div>
   );
 }
 

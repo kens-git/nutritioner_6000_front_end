@@ -4,7 +4,7 @@ import Select, { extractConsumableItem } from "../ui/Select";
 
 const InputIntakeForm: React.FC<{}> = (props) => {
   return (
-    <form>
+    <form className='container mt-2 space-x-2'>
       <Select id='input-intake-form-name' name='name'
         dataContext={ConsumableDataContext}
         extractItem={extractConsumableItem} />

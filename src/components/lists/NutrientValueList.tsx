@@ -6,6 +6,7 @@ import ConsumableNutrient from "../../types/ConsumableNutrient";
 import NutrientValueInputListItem, { NutrientValueListItemData }
   from "./NutrientValueInputListItem";
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
+import SectionHeader from "../ui/SectionHeader";
 
 interface NutrientValueListProps {
   title: string;
@@ -44,7 +45,7 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
 
   return (
     <div>
-      <h1>{props.title}</h1>
+      <SectionHeader label={props.title}/>
       <h2>{props.description}</h2>
       {list.map((nutrient, index) => {
         return <NutrientValueLabelListItem

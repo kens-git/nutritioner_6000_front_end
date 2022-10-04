@@ -3,19 +3,20 @@ import NewConsumableForm from "../components/forms/NewConsumableForm";
 import NewNameForm from "../components/forms/NewNameForm";
 import NewNutrientForm from "../components/forms/NewNutrientForm";
 import NewUnitForm from "../components/forms/NewUnitForm";
+import SectionHeader from "../components/ui/SectionHeader";
 
 const AddPage: React.FC<{}> = (props) => {
   return (
     <>
-      <h1>Add New Consumable</h1>
+      <SectionHeader label='Add New Consumable' />
       <NewConsumableForm />
-      <h1>Add New Nutrient</h1>
+      <SectionHeader label='Add New Nutrient' />
       <NewNutrientForm />
-      <h1>Add Name Name</h1>
+      <SectionHeader label='Add New Name' />
       <NewNameForm />
-      <h1>Add New Unit</h1>
+      <SectionHeader label='Add New Unit' />
       <NewUnitForm />
-      <h1>Add New Consumable Category</h1>
+      <SectionHeader label='Add New Consumable Category' />
       <NewConsumableCategoryForm />
     </>
   );

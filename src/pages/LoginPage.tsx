@@ -28,20 +28,20 @@ const LoginPage: React.FC<{}> = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className='grid h-screen place-items-center'>
+      <form className='m-4 w-80 flex flex-col' onSubmit={onSubmit}>
         {loginError.length !== 0 && <div><p>{loginError}</p></div>}
-        <div>
+        <div className='my-2 flex flex-row justify-between items-center'>
           <label htmlFor='login-form-username'>Username</label>
-          <input type='text' name='username' required
+          <input className='p-1.5 border rounded' type='text' name='username' required
             ref={usernameRef}/>
         </div>
-        <div>
-          <label htmlFor='login-form-password'>Password</label>
-          <input type='password' name='password' required
+        <div className='mb-2 flex flex-row justify-between items-center'>
+          <label className='' htmlFor='login-form-password'>Password</label>
+          <input className='p-1.5 border rounded' type='password' name='password' required
             ref={passwordRef} />
         </div>
-        <button type='submit'>Login</button>
+        <button className='h-10 rounded-md bg-sky-300 hover:bg-sky-200' type='submit'>Login</button>
       </form>
     </div>
   );

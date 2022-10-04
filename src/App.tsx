@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter, Navigate, Route,
   Routes } from 'react-router-dom';
 import AddPage from './pages/AddPage';
@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import PageLayout from './components/layouts/PageLayout';
 import ProfilePage from './pages/ProfilePage';
 
-const App: React.FC<{}> = () => {
+const App: React.FC<React.PropsWithChildren & React.HTMLAttributes<any>> = () => {
   const authContext = useContext(AuthContext);
 
   return (

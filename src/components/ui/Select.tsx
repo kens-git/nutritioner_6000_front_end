@@ -1,9 +1,17 @@
 import { Context, forwardRef, useContext, useEffect, useState } from 'react';
+import Consumable from '../../types/Consumable';
 import ConsumableCategory from '../../types/ConsumableCategory';
 import Name from '../../types/Name';
 import Nutrient from '../../types/Nutrient';
 import SelectItem from '../../types/SelectItem';
 import Unit from '../../types/Unit';
+
+export const extractConsumableItem = (consumable: Consumable) => {
+  return {
+    id: consumable.id,
+    label: consumable.name
+  }
+}
 
 export const extractConsumableCategoryItem = (category: ConsumableCategory) => {
   return {
@@ -61,7 +69,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
     }
     return (
       // TODO: don't use onChange if it's not defined
-      <select onChange={onChange} ref={selectRef} id={props.id} name={props.name}>
+      <select className='border'
+          onChange={onChange} ref={selectRef} id={props.id} name={props.name}>
         {formattedData.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
       </select>
     );

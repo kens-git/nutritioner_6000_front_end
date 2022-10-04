@@ -36,7 +36,6 @@ export interface DataProviderState<T> {
 export const CreateDataProvider = <T extends ID>(context: React.Context<DataContextData<T>>,
     defaultValue: DataContextData<T>, path: string)
     : React.FC<{children: React.ReactNode}> => {
-  //return () => {
   return (props) => {
     const authCtx = useContext(AuthContext);
     const [data, setData] = useState<DataProviderState<T>>(defaultValue);
@@ -91,5 +90,4 @@ export const CreateDataProvider = <T extends ID>(context: React.Context<DataCont
       </context.Provider>
     );
   }
-  //}
 }

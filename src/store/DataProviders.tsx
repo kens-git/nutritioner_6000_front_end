@@ -1,4 +1,5 @@
-import ConsumableCategoryDataContext, { ConsumableCategoryDataProvider } from "./ConsumableCategoryDataContext";
+import { ConsumableDataProvider } from "./ConsumableDataContext";
+import { ConsumableCategoryDataProvider } from "./ConsumableCategoryDataContext";
 import { NameDataProvider } from "./NameDataContext";
 import { NutrientDataProvider } from "./NutrientDataContext";
 import { UnitDataProvider } from "./UnitDataContext";
@@ -10,7 +11,9 @@ const DataProviders
       <UnitDataProvider>
         <ConsumableCategoryDataProvider>
           <NutrientDataProvider>
-            {props.children}
+            <ConsumableDataProvider>
+              {props.children}
+            </ConsumableDataProvider>
           </NutrientDataProvider>
         </ConsumableCategoryDataProvider>
       </UnitDataProvider>

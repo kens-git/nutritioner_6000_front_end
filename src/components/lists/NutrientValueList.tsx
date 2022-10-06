@@ -1,69 +1,118 @@
-import { Context, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import NutrientDataContext from "../../store/NutrientDataContext";
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import NutrientValueInputListItem, { NutrientValueListItemData }
   from "./NutrientValueInputListItem";
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import SectionHeader from "../ui/SectionHeader";
+import { ConsumableNutrientRegisterFunction }
+  from '../../store/ConsumableNutrientDataContext';
 
 interface NutrientValueListProps {
   title: string;
   description: string;
-  dataContext: Context<any>;
+  data: ConsumableNutrient[] | ConsumableNutrientRegisterFunction;
+  onListUpdate: (nutrients: ConsumableNutrient[]) => void;
   className?: string;
+}
+
+enum NutrientListActionType {
+  ADD,
+  CLEAR,
+  REMOVE,
+  SET
+};
+
+interface NutrientListAction {
+  type: NutrientListActionType;
+  payload: any;
+}
+
+const listReducer = (state: ConsumableNutrient[],
+    action: NutrientListAction): ConsumableNutrient[] => {
+  switch(action.type) {
+    case NutrientListActionType.ADD:
+      let is_updated = false;
+      const updated_list = state.map(item => {
+        if(item.nutrient.id === action.payload.nutrient.id) {
+          is_updated = true;
+          return {...item, value: item.value + action.payload.value};
+        }
+        return item;
+      });
+      if(is_updated) {
+        return updated_list;
+      }
+      return [...state, action.payload]
+    case NutrientListActionType.CLEAR:
+      return [];
+    case NutrientListActionType.REMOVE: {
+      const updated_list = [...state];
+      return updated_list.filter((item, index) => {
+        return index !== action.payload; });
+    }
+    case NutrientListActionType.SET:
+      return action.payload;
+    default:
+      return state;
+  }
 }
 
 const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
   const nutrientCtx = useContext(NutrientDataContext);
-  const targetCtx = useContext(props.dataContext);
-  //const [list, setList] = useState<ConsumableNutrient[]>([]);
+  const [listState, listDispatch] = useReducer(listReducer, []);
 
   const onItemAdded = (nutrient: NutrientValueListItemData) => {
     // TODO: needs to convert DVs to scalars
-    // const index = list.findIndex(item => item.nutrient.id === nutrient.nutrient_id);
-    // if(index == -1) {
-    //   const consumable_nutrient: ConsumableNutrient = {
-    //     id: -1, // TODO: ???
-    //     nutrient: nutrientCtx.get(nutrient.nutrient_id)!,
-    //     value: nutrient.value
-    //   }
-    //   setList([...list, consumable_nutrient]);
-    //   return;
-    // }
-    // const updated_list = [...list];
-    // updated_list[index] = {
-    //   id: -1,
-    //   nutrient: updated_list[index].nutrient,
-    //   value: nutrient.value + updated_list[index].value
-    // };
-    // setList(updated_list);
+    listDispatch({
+      type: NutrientListActionType.ADD,
+      payload: {
+        id: -1, // TODO: hint something isn't right
+        nutrient: nutrientCtx.get(nutrient.nutrient_id)!,
+        value: nutrient.value
+      }
+    });
   }
 
   const onItemRemoved = (removed_index: number) => {
-    //const updated_list = [...list];
-    //setList(updated_list.filter((item, index) => { return index !== removed_index; }));
+    listDispatch({
+      type: NutrientListActionType.REMOVE,
+      payload: removed_index
+    });
   }
 
-  // useEffect(() => {
-  //   if(props.initial_data !== list) {
-  //     setList(props.initial_data);
-  //   }
-  // }, []);
+  const onDataLoaded = (data: ConsumableNutrient[]) => {
+    if(listState.length !== 0) {
+      return;
+    }
+    listDispatch({
+      type: NutrientListActionType.SET,
+      payload: data
+    })
+  }
 
-  // console.log('initial data');
-  // console.log(props.initial_data);
+  useEffect(() => {
+    props.onListUpdate(listState);
+  }, [listState]);
 
-  // if(list.length === 0) {
-  //   setList(props.initial_data);
-  // }
+  useEffect(() => {
+    if(props.data instanceof Array<ConsumableNutrient>) {
+      listDispatch({
+        type: NutrientListActionType.SET,
+        payload: props.data
+      })
+    } else {
+      props.data(onDataLoaded);
+    }
+  }, []);
 
   return (
     <div className={props.className ? props.className! : ''}>
       <SectionHeader label={props.title}/>
       <h2 className='mb-2'>{props.description}</h2>
-      {targetCtx.data.length == 0 &&
+      {listState.length == 0 &&
         <h2 className='italic text-gray-500'>No data to display.</h2>}
-      {targetCtx.data.map((nutrient: ConsumableNutrient, index: number) => {
+      {listState.map((nutrient: ConsumableNutrient, index: number) => {
         return <NutrientValueLabelListItem
           key={index}
           name={nutrient.nutrient.name.name}

@@ -6,7 +6,6 @@ import Nutrient from "../../types/Nutrient";
 import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
 import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
-import TableRow from "./TableRow";
 import { getHex, interpolate } from "../../utility/color";
 
 const TARGET_START_COLOR: Color = {

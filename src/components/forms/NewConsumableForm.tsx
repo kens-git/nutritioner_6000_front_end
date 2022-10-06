@@ -7,8 +7,13 @@ import UnitDataContext from "../../store/UnitDataContext";
 import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";
 import TargetDataContext from "../../store/TargetDataContext";
+import ConsumableNutrient from "../../types/ConsumableNutrient";
 
 const NewConsumableForm: React.FC<{}> = (props) => {
+  const onListUpdate = (nutrients: ConsumableNutrient[]) => {
+
+  }
+
   const onSubmit = (event: any) => {
     event.preventDefault();
   };
@@ -27,8 +32,8 @@ const NewConsumableForm: React.FC<{}> = (props) => {
         extractItem={extractUnitItem} />
       <label htmlFor='new-consumable-reference-size'>Reference Size</label>
       <input className={input_classes} id='new-consumable-reference-size' name='reference-size' type='number' min='0' />
-      <NutrientValueList className='col-span-2' dataContext={TargetDataContext} title=''
-        description=''/>
+      <NutrientValueList className='col-span-2' data={[/* TODO: */]}
+        onListUpdate={onListUpdate} title='' description=''/>
       <button className={button_classes + ' col-span-2'} type='submit'>Submit</button>
     </form>
   );

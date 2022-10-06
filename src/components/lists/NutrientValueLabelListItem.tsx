@@ -10,6 +10,7 @@ interface NutrientValueLabelListItemProps {
 
 const NutrientValueLabelListItem: React.FC<NutrientValueLabelListItemProps> = (props) => {
   const onRemove = (event: any) => {
+    event.preventDefault();
     props.onRemove(props.index);
   }
   

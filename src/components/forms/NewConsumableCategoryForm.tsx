@@ -4,8 +4,12 @@ import { button_classes, input_classes }
   from "../tailwind_classes";
 
 const NewConsumableCategoryForm: React.FC<{}> = (props) => {
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+  };
+  
   return (
-    <form className='max-w-lg grid grid-cols-2 gap-2'>
+    <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <label htmlFor='new-consumable-category-name'>Name</label>
       <Select id='new-consumable-category-name' name='name' dataContext={NameDataContext}
         extractItem={extractNameItem}/>

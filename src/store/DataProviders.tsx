@@ -3,6 +3,7 @@ import { ConsumableCategoryDataProvider } from "./ConsumableCategoryDataContext"
 import { NameDataProvider } from "./NameDataContext";
 import { NutrientDataProvider } from "./NutrientDataContext";
 import { UnitDataProvider } from "./UnitDataContext";
+import { TargetDataProvider } from "./TargetDataContext";
 
 const DataProviders
     : React.FC<{children: React.ReactNode}> = (props) => {
@@ -12,7 +13,9 @@ const DataProviders
         <ConsumableCategoryDataProvider>
           <NutrientDataProvider>
             <ConsumableDataProvider>
-              {props.children}
+              <TargetDataProvider>
+                {props.children}
+              </TargetDataProvider>
             </ConsumableDataProvider>
           </NutrientDataProvider>
         </ConsumableCategoryDataProvider>

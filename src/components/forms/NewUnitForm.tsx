@@ -8,8 +8,12 @@ import { button_classes, input_classes }
 const NewUnitForm: React.FC<{}> = (props) => {
   const authCtx = useContext(AuthContext);
 
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+  };
+
   return (
-    <form className='max-w-lg grid grid-cols-2 gap-2'>
+    <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <label htmlFor='new-unit-name'>Name</label>
       <Select id='new-unit-name' name='name'
         dataContext={NameDataContext} extractItem={extractNameItem} />

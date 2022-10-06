@@ -5,8 +5,12 @@ import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";
 
 const InputIntakeForm: React.FC<{}> = (props) => {
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+  };
+
   return (
-    <form className={form_classes}>
+    <form onSubmit={onSubmit} className={form_classes}>
       <Select id='input-intake-form-name' name='name'
         dataContext={ConsumableDataContext}
         extractItem={extractConsumableItem} />

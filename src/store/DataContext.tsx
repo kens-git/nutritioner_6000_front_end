@@ -28,11 +28,14 @@ export const getDefaultContextData = <T extends ID>(): DataContextData<T> => {
   }
 }
 
+// TODO: possibly redundant, contextData should probably be state
 export interface DataProviderState<T> {
   isLoaded: boolean;
   data: T[]
 }
 
+// TODO: the DataContextData 'path' property makes this 'path' parameter redundant
+//        see above TODO about the provider state interface
 export const CreateDataProvider = <T extends ID>(context: React.Context<DataContextData<T>>,
     defaultValue: DataContextData<T>, path: string)
     : React.FC<{children: React.ReactNode}> => {
@@ -70,6 +73,7 @@ export const CreateDataProvider = <T extends ID>(context: React.Context<DataCont
     }
 
     useEffect(() => {
+      // TODO: what guarantee is there that the token exists when this is run?
       GET<T[]>(path, authCtx.token!)
       .then((response) => {
         setData({

@@ -5,8 +5,12 @@ import { button_classes, input_classes }
   from "../tailwind_classes";
 
 const NewNutrientForm: React.FC<{}> = (props) => {
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+  };
+
   return (
-    <form className='grid grid-cols-2 gap-2 max-w-lg'>
+    <form onSubmit={onSubmit} className='grid grid-cols-2 gap-2 max-w-lg'>
       <label htmlFor='new-nutrient-name'>Name</label>
       <Select id='new-nutrient-name' name='name' dataContext={NameDataContext}
         extractItem={extractNameItem} />

@@ -6,11 +6,11 @@ import Select, { extractNameItem, extractUnitItem, extractConsumableCategoryItem
 import UnitDataContext from "../../store/UnitDataContext";
 import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";
+import TargetDataContext from "../../store/TargetDataContext";
 
 const NewConsumableForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
-    console.log('submitted');
   };
 
   return (
@@ -27,7 +27,8 @@ const NewConsumableForm: React.FC<{}> = (props) => {
         extractItem={extractUnitItem} />
       <label htmlFor='new-consumable-reference-size'>Reference Size</label>
       <input className={input_classes} id='new-consumable-reference-size' name='reference-size' type='number' min='0' />
-      <NutrientValueList className='col-span-2' title='' description=''/>
+      <NutrientValueList className='col-span-2' dataContext={TargetDataContext} title=''
+        description=''/>
       <button className={button_classes + ' col-span-2'} type='submit'>Submit</button>
     </form>
   );

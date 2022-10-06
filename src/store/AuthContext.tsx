@@ -34,9 +34,6 @@ export const AuthContextProvider:
     })());
 
   const isLoggedIn = () => {
-    console.log('Is logged in: ');
-    console.log(loginData.token !== null &&
-      loginData.user_id !== null);
     return loginData.token !== null &&
       loginData.user_id !== null;
   }

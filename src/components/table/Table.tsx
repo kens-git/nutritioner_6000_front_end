@@ -1,4 +1,5 @@
 import { isStringLiteralLike } from "typescript";
+import { Color } from '../../utility/color';
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import Intake from "../../types/Intake";
 import Nutrient from "../../types/Nutrient";
@@ -6,6 +7,19 @@ import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
 import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
 import TableRow from "./TableRow";
+import { getHex, interpolate } from "../../utility/color";
+
+const TARGET_START_COLOR: Color = {
+  red: 125,
+  green: 100,
+  blue: 120
+};
+
+const TARGET_END_COLOR: Color = {
+  red: 125,
+  green: 211,
+  blue: 252
+}
 
 const TEST_INTAKES: Intake[] = [
   INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
@@ -61,7 +75,8 @@ const get_column_data = (nutrients: Nutrient[]) => {
       nutrient_id: nutrient.id,
       name: nutrient.name.name + ' (' +
         nutrient.unit.name.abbreviation + ')',
-      target: 0,
+      // TODO: load from server
+      target: 35000,
       total: 0,
       is_used: false
     });
@@ -131,8 +146,6 @@ const Table: React.FC<{}> = (props) => {
               <tr>
                 <td>{row.name}</td>
                 <td>{row.category}</td>
-                {/* TODO: date is redundant because the date
-                          input shows the current date */}
                 <td>{row.timestamp.toLocaleTimeString()}</td>
                 <td>{row.intake_size}</td>
                 <td>{row.unit}</td>
@@ -157,7 +170,7 @@ const Table: React.FC<{}> = (props) => {
               if(!details.is_used) {
                 return null;
               }
-              return <td className='text-right'>{details.target / details.total}</td>
+              return <td className='text-right'>{details.target}</td>
             })}
           </tr>
           <tr>
@@ -171,7 +184,12 @@ const Table: React.FC<{}> = (props) => {
                 return null;
               }
               const bg_color = 'bg-[#FFAAFF]'
-              return <td className={`${bg_color} text-right`}>{details.total}</td>
+              return <td
+                style={{backgroundColor: `${getHex(interpolate(
+                  TARGET_START_COLOR,
+                  TARGET_END_COLOR,
+                  details.total / details.target))}FF`}}
+                className='text-right'>{details.total}</td>
             })}
           </tr>
         </tbody>

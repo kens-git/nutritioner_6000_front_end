@@ -26,16 +26,8 @@ const NewNameForm: React.FC<{}> = (props) => {
       name: nameRef.current!.value,
       abbreviation: abbrRef.current!.value,
       plural: pluralRef.current!.value
+      //user: authCtx.user_id
     });
-    // POST<NameSubmit, any>('name', {
-    //   user: +(authCtx.user_id!),
-    //   name: nameRef.current!.value,
-    //   abbreviation: abbrRef.current!.value,
-    //   plural: pluralRef.current!.value
-    // }, authCtx.token!)
-    // .then(response => {
-    //   console.log(response);
-    // });
   };
 
   return (

@@ -47,7 +47,7 @@ interface SelectProps {
   className?: string;
   dataContext: Context<any>;
   extractItem: (value: any) => any;
-  onChange?: (value: any) => void
+  onChange?: (value: any) => void // TODO: parameter type
 }
 
 const select_classes = 'p-1.5 \

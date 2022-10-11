@@ -10,7 +10,7 @@ import { input_classes } from '../components/tailwind_classes';
 const HomePage: React.FC<{}> = (props) => {
   const authCtx = useContext(AuthContext);
   const [date, setDate] = useState<string>(
-    new Date(Date.now()).toLocaleDateString('en-CA'));
+    new Date().toLocaleDateString('en-CA'));
 
   const onDateChange: React.ChangeEventHandler<HTMLInputElement> =
       (event) => {

@@ -1,5 +1,3 @@
-import ConsumableCategoryDataContext from "../store/ConsumableCategoryDataContext";
-
 export interface Color {
   red: number;
   green: number;

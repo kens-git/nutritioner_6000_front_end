@@ -10,12 +10,7 @@ import { button_classes, input_classes }
 const NewUnitForm: React.FC<{}> = (props) => {
   const [name, setName] = useState<Name>();
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const authCtx = useContext(AuthContext);
   const unitCtx = useContext(UnitDataContext);
-
-  const onNameChange = (name: any) => {
-    setName(name);
-  }
 
   const onSubmit = (event: any) => {
     event.preventDefault();
@@ -32,7 +27,7 @@ const NewUnitForm: React.FC<{}> = (props) => {
       <label htmlFor='new-unit-name'>Name</label>
       <Select id='new-unit-name' name='name'
         dataContext={NameDataContext} extractItem={extractNameItem}
-        onChange={onNameChange} />
+        onChange={setName} />
       <label htmlFor='new-unit-description'>Description</label>
       <input ref={descriptionRef} className={input_classes}
         id='new-unit-description' name='description'

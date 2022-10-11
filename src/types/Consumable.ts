@@ -5,7 +5,7 @@ import Unit from './Unit'
 
 interface Consumable {
   id: number;
-  name: Name;
+  name: string;
   category: ConsumableCategory;
   unit: Unit;
   reference_size: number;

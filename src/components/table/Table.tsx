@@ -1,12 +1,16 @@
-import { isStringLiteralLike } from "typescript";
+import { Context } from 'react';
 import { Color } from '../../utility/color';
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import Intake from "../../types/Intake";
 import Nutrient from "../../types/Nutrient";
-import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
-  INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
-import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
+import Unit from '../../types/Unit';
+// import { INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
+//   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
+// import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
 import { getHex, interpolate } from "../../utility/color";
+import { useContext } from "react";
+import IntakeDataContext from "../../store/IntakeDataContext";
+import NutrientDataContext from "../../store/NutrientDataContext";
 
 const TARGET_START_COLOR: Color = {
   red: 125,
@@ -19,11 +23,6 @@ const TARGET_END_COLOR: Color = {
   green: 211,
   blue: 252
 }
-
-const TEST_INTAKES: Intake[] = [
-  INTAKE_APPLE, INTAKE_BACON, INTAKE_BANANA,
-  INTAKE_MILK, INTAKE_STEAK
-]
 
 type NutrientId = number;
 type ColumnIndex = number;
@@ -53,46 +52,21 @@ interface TableRowData {
   nutrient_values: (number | null)[];
 }
 
-const get_column_data = (nutrients: Nutrient[]) => {
-  const sorted_nutrients = [...nutrients];
-  sorted_nutrients.sort((first, second) => {
-    if(first.is_macronutrient || second.is_macronutrient) {
-      if(!first.is_macronutrient) {
-        return 1;
-      } else if(!second.is_macronutrient) {
-        return -1;
-      }
-    }
-    return first.name.name.localeCompare(second.name.name);
-  });
-  const columns: Columns = {
-    nutrient_map: new Map<NutrientId, ColumnIndex>(),
-    details: []};
-  for(const [index, nutrient] of sorted_nutrients.entries()) {
-    columns.nutrient_map.set(nutrient.id, index);
-    columns.details.push({
-      nutrient_id: nutrient.id,
-      name: nutrient.name.name + ' (' +
-        nutrient.unit.name.abbreviation + ')',
-      // TODO: load from server
-      target: 35000,
-      total: 0,
-      is_used: false
-    });
-  }
-  return columns;
-}
-
-// TODO: when to use types, return types?
-//       when to omit?
-// TODO: may create a side effect of updating totals,
-//       so rename
-const get_row_data = (columns: Columns,
+  // TODO: when to use types, return types?
+  //       when to omit?
+  // TODO: may create a side effect of updating totals,
+  //       so rename
+  const get_row_data = (columns: Columns,
+    // TODO: type alias
     intakes: Intake[]): TableRowData[] => {
+  //console.log(unitCtx);
+  //console.log(columns);
+  //console.log(intakes);
+  //const unitCtx = useContext(UnitDataContext);
   const data: TableRowData[] = [];
   for(const intake of intakes) {
     const row: TableRowData = {
-      name: intake.consumable.name.name,
+      name: intake.consumable.name,
       category: intake.consumable.category.name.name,
       timestamp: intake.timestamp,
       unit: intake.consumable.unit.name.name,
@@ -116,11 +90,52 @@ const get_row_data = (columns: Columns,
   return data;
 }
 
+const get_column_data = (nutrients: Nutrient[]) => {
+  const sorted_nutrients = [...nutrients];
+  sorted_nutrients.sort((first, second) => {
+    if(first.is_macronutrient || second.is_macronutrient) {
+      if(!first.is_macronutrient) {
+        return 1;
+      } else if(!second.is_macronutrient) {
+        return -1;
+      }
+    }
+    return first.name.name.localeCompare(second.name.name);
+  });
+  const columns: Columns = {
+    nutrient_map: new Map<NutrientId, ColumnIndex>(),
+    details: []};
+  for(const [index, nutrient] of sorted_nutrients.entries()) {
+    //console.log('here');
+    //console.log(nutrient);
+    columns.nutrient_map.set(nutrient.id, index);
+    columns.details.push({
+      nutrient_id: nutrient.id,
+      name: nutrient.name.name + ' (' +
+        nutrient.unit.name.abbreviation + ')',
+      // TODO: load from server
+      target: 35000,
+      total: 0,
+      is_used: false
+    });
+  }
+  return columns;
+}
+
 const Table: React.FC<{}> = (props) => {
+  const intakeCtx = useContext(IntakeDataContext);
+  const nutrientCtx = useContext(NutrientDataContext);
+
   // get all nutrients -> get_column_data
   // get all intakes for day -> get_row_data
-  const columns = get_column_data(TEST_NUTRIENTS);
-  const row_data = get_row_data(columns, TEST_INTAKES);
+  const columns = get_column_data(nutrientCtx.data);
+  const row_data = get_row_data(columns,
+    (async () => {
+      return await intakeCtx.get_params({});
+    })());
+    // (async () => {
+    //   return intakeCtx.get_params({ start: Date.now(), end: Date.now()
+    //   })());
   return (
     <div className='overflow-auto'>
       <table className='mt-2 w-full text-left'>
@@ -140,12 +155,12 @@ const Table: React.FC<{}> = (props) => {
           </tr>
         </thead>
         <tbody>
-          {row_data.map((row, index, array) => {
+          {row_data.map(row => {
             return (
               <tr>
                 <td>{row.name}</td>
                 <td>{row.category}</td>
-                <td>{row.timestamp.toLocaleTimeString()}</td>
+                <td>{new Date(row.timestamp).toLocaleTimeString()}</td>
                 <td>{row.intake_size}</td>
                 <td>{row.unit}</td>
                 {row.nutrient_values.map((value, index, array) => {
@@ -182,7 +197,6 @@ const Table: React.FC<{}> = (props) => {
               if(!details.is_used) {
                 return null;
               }
-              const bg_color = 'bg-[#FFAAFF]'
               return <td
                 style={{backgroundColor: `${getHex(interpolate(
                   TARGET_START_COLOR,

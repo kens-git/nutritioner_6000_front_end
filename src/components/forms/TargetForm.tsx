@@ -11,7 +11,7 @@ const TargetForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const targetCtx = useContext(TargetDataContext);
-  const [currentNutrientList, onListUpdate] =
+  const [currentNutrientList, setCurrentNutrientList] =
     useState<ConsumableNutrient[]>([]);
 
   const onSubmit = (event: any) => {
@@ -24,7 +24,7 @@ const TargetForm: React.FC<{}> = (props) => {
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <NutrientValueList className='col-span-2'
         data={targetCtx.isLoaded ? targetCtx.data : targetCtx.registerLoadCallback}
-        onListUpdate={onListUpdate}
+        onListUpdate={setCurrentNutrientList}
         title='Targets' description={DESCRIPTION} />
       <label htmlFor='target-name'>Name</label>
       <input ref={nameRef} className={input_classes} id='target-name'

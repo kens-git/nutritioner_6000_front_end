@@ -1,19 +1,18 @@
 import React from 'react';
-import Consumable from '../types/Consumable';
 import ConsumableCategory from '../types/ConsumableCategory';
 import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
 
-// id: number;
-// name: Name;
-// description: string;
-
 export interface NewConsumableCategory {
-  // TODO: 
+  name: number;
+  description: string;
 }
 
 const extractNewConsumableCategory =
     (category: ConsumableCategory): NewConsumableCategory => {
-  return {}
+  return {
+    name: category.name.id,
+    description: category.description
+  }
 }
 
 const default_data =

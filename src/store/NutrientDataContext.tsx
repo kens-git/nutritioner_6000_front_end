@@ -1,13 +1,7 @@
 import React from 'react';
 import Nutrient from '../types/Nutrient';
-import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
-
-
-// id: number;
-// name: Name;
-// description: string;
-// unit: Unit;
-// is_macronutrient: boolean;
+import { CreateDataProvider, DataContextData,
+  getDefaultContextData } from "./DataContext";
 
 export interface NewNutrient {
   name: number;

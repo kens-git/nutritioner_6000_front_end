@@ -8,7 +8,6 @@ export interface NewUnit {
 }
 
 const extractNewUnit = (unit: Unit): NewUnit => {
-  console.log(unit);
   return {
     name: unit.name.id,
     description: unit.description

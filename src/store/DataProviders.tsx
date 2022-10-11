@@ -4,6 +4,8 @@ import { NameDataProvider } from "./NameDataContext";
 import { NutrientDataProvider } from "./NutrientDataContext";
 import { UnitDataProvider } from "./UnitDataContext";
 import { TargetDataProvider } from "./TargetDataContext";
+import { DailyValueDataProvider } from "./DailyValueDataContext";
+import { IntakeDataProvider } from "./IntakeDataContext";
 
 const DataProviders
     : React.FC<{children: React.ReactNode}> = (props) => {
@@ -14,7 +16,11 @@ const DataProviders
           <NutrientDataProvider>
             <ConsumableDataProvider>
               <TargetDataProvider>
-                {props.children}
+                <DailyValueDataProvider>
+                  <IntakeDataProvider>
+                    {props.children}
+                  </IntakeDataProvider>
+                </DailyValueDataProvider>
               </TargetDataProvider>
             </ConsumableDataProvider>
           </NutrientDataProvider>

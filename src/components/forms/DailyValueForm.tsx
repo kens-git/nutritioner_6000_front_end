@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import DailyValueDataContext from "../../store/DailyValueDataContext";
 import ConsumableNutrient from '../../types/ConsumableNutrient';
 import NutrientValueList from "../lists/NutrientValueList";
@@ -12,18 +12,20 @@ value for a particular nutrient is given as a percentage. The default values are
 Health Canada's document, Nutrition Labeling: Table of Daily Values.`;
 
 const DailyValueForm: React.FC<{}> = (props) => {
-  const onListUpdate = (nutrients: ConsumableNutrient[]) => {
-
-  }
+  const dailyValueCtx = useContext(DailyValueDataContext);
+  const [currentNutrientList, setCurrentNutrientList] =
+    useState<ConsumableNutrient[]>([]);
 
   const onSubmit = (event: any) => {
     event.preventDefault();
+    dailyValueCtx.set(currentNutrientList);
   };
 
   return (
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
-      <NutrientValueList className='col-span-2' data={[/* TODO: */]}
-        onListUpdate={onListUpdate}
+      <NutrientValueList className='col-span-2'
+        data={dailyValueCtx.isLoaded ? dailyValueCtx.data : dailyValueCtx.registerLoadCallback}
+        onListUpdate={setCurrentNutrientList}
         title='Daily Values' description={DESCRIPTION} />
       <button className={button_classes + ' col-span-2'} type='submit'>Submit</button>
     </form>

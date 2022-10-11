@@ -8,7 +8,7 @@ import { UNIT_GRAM } from "./TestUnits";
 
 export const CONSUMABLE_APPLE: Consumable = {
   id: 1,
-  name: NAME_APPLE,
+  name: 'Apple',
   category: CATEGORY_FRUIT,
   unit: UNIT_GRAM,
   reference_size: 100,
@@ -43,7 +43,7 @@ export const CONSUMABLE_APPLE: Consumable = {
 
 export const CONSUMABLE_BACON: Consumable = {
   id: 2,
-  name: NAME_BACON,
+  name: 'Bacon',
   category: CATEGORY_MEAT,
   unit: UNIT_GRAM,
   reference_size: 100,
@@ -73,7 +73,7 @@ export const CONSUMABLE_BACON: Consumable = {
 
 export const CONSUMABLE_BANANA: Consumable = {
   id: 3,
-  name: NAME_BANANA,
+  name: 'Banana',
   category: CATEGORY_FRUIT,
   unit: UNIT_GRAM,
   reference_size: 100,
@@ -93,7 +93,7 @@ export const CONSUMABLE_BANANA: Consumable = {
 
 export const CONSUMABLE_MILK: Consumable = {
   id: 4,
-  name: NAME_MILK,
+  name: 'Milk',
   category: CATEGORY_DAIRY,
   unit: UNIT_GRAM,
   reference_size: 100,
@@ -108,7 +108,7 @@ export const CONSUMABLE_MILK: Consumable = {
 
 export const CONSUMABLE_STEAK: Consumable = {
   id: 5,
-  name: NAME_STEAK,
+  name: 'Steak',
   category: CATEGORY_MEAT,
   unit: UNIT_GRAM,
   reference_size: 100,

@@ -6,10 +6,6 @@ interface ID {
   id: number;
 }
 
-abstract class Foo {
-  abstract set(a: number): void;
-}
-
 // Takes a type T and returns type U
 type Extract<T, U> = (value: T) => U;
 
@@ -18,9 +14,10 @@ type Filter<T> = (value: T) => any;
 export interface DataContextData<T extends ID, U> {
   path: string;
   isLoaded: boolean;
-  data: T[];
+  data: T[]; // TODO: allows mutating in place, add a getter instead
   add: (value: T) => Promise<void>; // TODO: return type
-  get: (id: number) => T | undefined;
+  get: (id: number) => T | undefined; // TODO: only used by list, maybe remove
+  get_params: (params: any) => Promise<T[]>;
   extract: Extract<T, U>;
   filter: (f: Filter<T>) => any[];
 }
@@ -34,6 +31,8 @@ export const getDefaultContextData =
     data: [],
     add: () => { return new Promise(() => {}); },
     get: (id: number) => undefined,
+    get_params: (params: any) => {
+      return new Promise<T[]>(resolve => { resolve([]); }); },
     extract: extract,
     filter: () => []
   }
@@ -54,9 +53,11 @@ export const CreateDataProvider = <T extends ID, U>(
     }
 
     const add = async (value: T) => {
+      //console.log(value);
       await POST<U, U[]>(data.path,
           { ...data.extract(value), user: +authCtx.user_id! },
-          authCtx.token!).then(response => {
+          authCtx.token!)
+      .then(response => {
         setData({
           ...data,
           // TODO: The back end may assign an ID to the created
@@ -77,26 +78,38 @@ export const CreateDataProvider = <T extends ID, U>(
       return data.data.find(item => item.id === id);
     }
 
+    const get_params = (params: any) => {
+      return GET<T[]>(data.path, authCtx.token!, params)
+      .then((response) => {
+        return response!.data
+      });
+    }
+
     const contextData: DataContextData<T, U> = {
       path: data.path,
       isLoaded: data.isLoaded,
       data: data.data,
       add: add,
       get: get,
+      get_params: get_params,
       extract: data.extract,
       filter: applyFilter
     }
 
     useEffect(() => {
-      // TODO: what guarantee is there that the token exists when this is run?
-      GET<T[]>(data.path, authCtx.token!)
-      .then((response) => {
-        setData({
-          ...data,
-          isLoaded: true,
-          data: response!.data
+      //const getData = async () => {
+        // TODO: what guarantee is there that the token exists when this is run?
+        /* await */ GET<T[]>(data.path, authCtx.token!)
+        .then((response) => {
+          setData({
+            ...data,
+            isLoaded: true,
+            data: response!.data
+          });
         });
-      });
+      //}
+
+      //getData();
     }, []);
 
     return (

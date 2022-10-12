@@ -1,4 +1,4 @@
-import { Context } from 'react';
+import { useContext, useState } from 'react';
 import { Color } from '../../utility/color';
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import Intake from "../../types/Intake";
@@ -8,9 +8,12 @@ import Unit from '../../types/Unit';
 //   INTAKE_MILK, INTAKE_STEAK } from "../../test_data/TestIntakes";
 // import { TEST_NUTRIENTS } from "../../test_data/TestNutrients";
 import { getHex, interpolate } from "../../utility/color";
-import { useContext } from "react";
 import IntakeDataContext from "../../store/IntakeDataContext";
 import NutrientDataContext from "../../store/NutrientDataContext";
+import Consumable from '../../types/Consumable';
+import { set_start_of_day, set_end_of_day }
+  from '../../utility/date_utilities';
+import TargetDataContext from '../../store/TargetDataContext';
 
 const TARGET_START_COLOR: Color = {
   red: 125,
@@ -59,9 +62,6 @@ interface TableRowData {
   const get_row_data = (columns: Columns,
     // TODO: type alias
     intakes: Intake[]): TableRowData[] => {
-  //console.log(unitCtx);
-  //console.log(columns);
-  //console.log(intakes);
   //const unitCtx = useContext(UnitDataContext);
   const data: TableRowData[] = [];
   for(const intake of intakes) {
@@ -90,7 +90,7 @@ interface TableRowData {
   return data;
 }
 
-const get_column_data = (nutrients: Nutrient[]) => {
+const sort_nutrients = (nutrients: Nutrient[]) => {
   const sorted_nutrients = [...nutrients];
   sorted_nutrients.sort((first, second) => {
     if(first.is_macronutrient || second.is_macronutrient) {
@@ -102,19 +102,24 @@ const get_column_data = (nutrients: Nutrient[]) => {
     }
     return first.name.name.localeCompare(second.name.name);
   });
+  return sorted_nutrients;
+}
+
+const get_column_data = (
+    nutrients: Nutrient[],
+    targets: ConsumableNutrient[]) => {
+  const target_map = new Map<number, number>();
+  const sorted_nutrients = sort_nutrients(nutrients);
   const columns: Columns = {
     nutrient_map: new Map<NutrientId, ColumnIndex>(),
     details: []};
   for(const [index, nutrient] of sorted_nutrients.entries()) {
-    //console.log('here');
-    //console.log(nutrient);
     columns.nutrient_map.set(nutrient.id, index);
     columns.details.push({
       nutrient_id: nutrient.id,
       name: nutrient.name.name + ' (' +
         nutrient.unit.name.abbreviation + ')',
-      // TODO: load from server
-      target: 35000,
+      target: target_map.get(nutrient.id) || 0,
       total: 0,
       is_used: false
     });
@@ -122,20 +127,39 @@ const get_column_data = (nutrients: Nutrient[]) => {
   return columns;
 }
 
-const Table: React.FC<{}> = (props) => {
+export interface DateRange {
+  start: Date,
+  end: Date
+}
+
+export interface TableProps {
+  dates: DateRange
+}
+
+const Table: React.FC<TableProps> = (props) => {
   const intakeCtx = useContext(IntakeDataContext);
   const nutrientCtx = useContext(NutrientDataContext);
+  const targetCtx = useContext(TargetDataContext);
+  const [dates, setDates] = useState<DateRange>(props.dates);
+  const [intakeData, setIntakeData] = useState<Intake[]>([]);
 
-  // get all nutrients -> get_column_data
-  // get all intakes for day -> get_row_data
-  const columns = get_column_data(nutrientCtx.data);
-  const row_data = get_row_data(columns,
-    (async () => {
-      return await intakeCtx.get_params({});
-    })());
-    // (async () => {
-    //   return intakeCtx.get_params({ start: Date.now(), end: Date.now()
-    //   })());
+  const columns = get_column_data(
+    Array.from(nutrientCtx.data.values()),
+    targetCtx.data);
+  const row_data = get_row_data(columns, intakeData);
+  if(dates !== props.dates) {
+    const start = props.dates.start.toISOString();
+    const end = props.dates.end.toISOString();
+    intakeCtx.get_params({start, end}).then(value => {
+      setIntakeData(value);
+    });
+    setDates(props.dates);
+  }
+  if(row_data.length === 0) { // TODO: inline
+    return (
+      <p>No data to display.</p>
+    )
+  }
   return (
     <div className='overflow-auto'>
       <table className='mt-2 w-full text-left'>

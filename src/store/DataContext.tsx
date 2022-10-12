@@ -14,7 +14,8 @@ type Filter<T> = (value: T) => any;
 export interface DataContextData<T extends ID, U> {
   path: string;
   isLoaded: boolean;
-  data: T[]; // TODO: allows mutating in place, add a getter instead
+  //result = new Map(arr.map(obj => [obj.key, obj.val]));
+  data: Map<number, T>; // TODO: allows mutating in place, add a getter instead
   add: (value: T) => Promise<void>; // TODO: return type
   get: (id: number) => T | undefined; // TODO: only used by list, maybe remove
   get_params: (params: any) => Promise<T[]>;
@@ -28,7 +29,7 @@ export const getDefaultContextData =
   return {
     path: path,
     isLoaded: false,
-    data: [],
+    data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
     get: (id: number) => undefined,
     get_params: (params: any) => {
@@ -49,11 +50,11 @@ export const CreateDataProvider = <T extends ID, U>(
     const [data, setData] = useState<DataContextData<T, U>>(defaultValue);
 
     const applyFilter = (filter: Filter<T>) => {
-      return contextData.data.map(filter);
+      return Array.from(contextData.data.values()).map(filter);
     }
 
     const add = async (value: T) => {
-      //console.log(value);
+      console.log(value);
       await POST<U, U[]>(data.path,
           { ...data.extract(value), user: +authCtx.user_id! },
           authCtx.token!)
@@ -69,19 +70,20 @@ export const CreateDataProvider = <T extends ID, U>(
           //       returned from the back end, and combine
           //       them into the final representation that
           //       gets stored here.
-          data: [...data.data, value]
+          data: new Map(data.data.set(value.id, value))
         });
       });
     }
 
     const get = (id: number) => {
-      return data.data.find(item => item.id === id);
+      return data.data.get(id);
     }
 
     const get_params = (params: any) => {
       return GET<T[]>(data.path, authCtx.token!, params)
       .then((response) => {
-        return response!.data
+        //console.log(response!.data);
+        return response!.data;
       });
     }
 
@@ -96,15 +98,19 @@ export const CreateDataProvider = <T extends ID, U>(
       filter: applyFilter
     }
 
+    // TODO: don't do for intakes
     useEffect(() => {
       //const getData = async () => {
         // TODO: what guarantee is there that the token exists when this is run?
         /* await */ GET<T[]>(data.path, authCtx.token!)
         .then((response) => {
+          // if(data.path === 'intake') {
+          //   console.log(response!.data);
+          // }
           setData({
             ...data,
             isLoaded: true,
-            data: response!.data
+            data: new Map(response!.data.map(item => [item.id, item]))
           });
         });
       //}

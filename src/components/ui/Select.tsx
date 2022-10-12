@@ -65,7 +65,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
   const dataCtx = useContext(props.dataContext);
   const [isIndexSet, setIsIndexSet] = useState<boolean>();
 
-  const data: any[] = dataCtx.data;
+  // TODO: return type shouldn't be any
+  const data: any[] = Array.from(dataCtx.data.values());
   const formattedData: SelectItem[] = dataCtx.filter(props.extractItem);
 
   const onChange = (event: any) => {

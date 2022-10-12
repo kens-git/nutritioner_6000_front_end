@@ -140,7 +140,7 @@ const Table: React.FC<TableProps> = (props) => {
   const intakeCtx = useContext(IntakeDataContext);
   const nutrientCtx = useContext(NutrientDataContext);
   const targetCtx = useContext(TargetDataContext);
-  const [dates, setDates] = useState<DateRange>(props.dates);
+  const [dates, setDates] = useState<DateRange>();
   const [intakeData, setIntakeData] = useState<Intake[]>([]);
 
   const columns = get_column_data(

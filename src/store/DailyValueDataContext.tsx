@@ -58,6 +58,7 @@ export const DailyValueDataProvider:
     .then((response) => {
       setContextData({
         ...contextData,
+        isLoaded: true,
         data: response!.data.at(-1)!.nutrients
       });
       callbackList.current!.forEach(item => {

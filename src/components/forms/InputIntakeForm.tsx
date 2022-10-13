@@ -6,8 +6,13 @@ import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";
 import IntakeDataContext from '../../store/IntakeDataContext';
 import Consumable from '../../types/Consumable';
+import Intake from '../../types/Intake';
 
-const InputIntakeForm: React.FC<{}> = (props) => {
+interface InputIntakeFormProps {
+  onSubmit: (intake: Intake) => void;
+}
+
+const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
   const [consumable, setConsumable] = useState<Consumable>();
   const [date, setDate] = useState<string>(new Date().toLocaleDateString('en-CA'));
   const [time, setTime] = useState<string>(
@@ -26,12 +31,14 @@ const InputIntakeForm: React.FC<{}> = (props) => {
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    intakeCtx.add({
+    const intake: Intake = {
       id: -1,
       timestamp: new Date(date + 'T' + time),
       consumable: consumable!,
       serving_size: +servingSizeRef.current!.value
-    });
+    };
+    intakeCtx.add(intake);
+    props.onSubmit(intake);
   };
 
   return (

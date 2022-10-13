@@ -133,7 +133,7 @@ export interface DateRange {
 }
 
 export interface TableProps {
-  dates: DateRange
+  data: Intake[];
 }
 
 const Table: React.FC<TableProps> = (props) => {
@@ -141,20 +141,13 @@ const Table: React.FC<TableProps> = (props) => {
   const nutrientCtx = useContext(NutrientDataContext);
   const targetCtx = useContext(TargetDataContext);
   const [dates, setDates] = useState<DateRange>();
-  const [intakeData, setIntakeData] = useState<Intake[]>([]);
+  //const [intakeData, setIntakeData] = useState<Intake[]>([]);
 
   const columns = get_column_data(
     Array.from(nutrientCtx.data.values()),
     targetCtx.data);
-  const row_data = get_row_data(columns, intakeData);
-  if(dates !== props.dates) {
-    const start = props.dates.start.toISOString();
-    const end = props.dates.end.toISOString();
-    intakeCtx.get_params({start, end}).then(value => {
-      setIntakeData(value);
-    });
-    setDates(props.dates);
-  }
+  const row_data = get_row_data(columns, props.data);
+
   if(row_data.length === 0) { // TODO: inline
     return (
       <p>No data to display.</p>

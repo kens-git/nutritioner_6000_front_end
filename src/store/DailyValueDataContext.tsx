@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ConsumableNutrient from '../types/ConsumableNutrient';
+import DailyValue from '../types/DailyValue';
 import { GET, POST } from '../utility/Requests';
 import AuthContext from './AuthContext';
 
@@ -28,10 +29,10 @@ export const DailyValueDataProvider:
   const registerLoadCallback = (callback: (data: ConsumableNutrient[]) => void) => {
     callbackList.current!.push(callback);
   }
-  const set = async (submitted_data: ConsumableNutrient[]) => {
+  const set = (submitted_data: ConsumableNutrient[]) => {
     // !!! path different
     // !!! POST type parameters different
-    const r = await POST<any, any>('daily-value', {
+    POST<any, any>('daily-value', {
       // !!! properties different, no name, desc., and timestamp
       nutrients: submitted_data.map(item => {
         return {
@@ -41,7 +42,13 @@ export const DailyValueDataProvider:
         }
       }),
       user: +authCtx.user_id!
-    }, authCtx.token!);
+    }, authCtx.token!)
+    .then(response => {
+      setContextData({
+        ...contextData,
+        data: submitted_data
+      });
+    });
   }
   const [contextData, setContextData] = useState<DailyValueContextData>({
     isLoaded: false,
@@ -51,10 +58,9 @@ export const DailyValueDataProvider:
   });
   
   useEffect(() => {
-    // TODO: type
     // !!! path different
     // !!! response return type different
-    GET<any[]>('daily-value', authCtx.token!)
+    GET<DailyValue[]>('daily-value', authCtx.token!, {getLatest: true})
     .then((response) => {
       setContextData({
         ...contextData,

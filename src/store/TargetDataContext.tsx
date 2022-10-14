@@ -1,17 +1,8 @@
-// import React from "react";
-// import { ConsumableNutrientContextData, CreateConsumableNutrientDataProvider,
-//   getDefaultNutrientContextData } from "./ConsumableNutrientDataContext";
-
-// const default_data = getDefaultNutrientContextData('target');
-// const TargetDataContext = React.createContext<ConsumableNutrientContextData>(default_data);
-// export const TargetDataProvider =
-//   CreateConsumableNutrientDataProvider(TargetDataContext, default_data);
-
-// export default TargetDataContext;
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ConsumableNutrient from '../types/ConsumableNutrient';
 import { GET, POST } from '../utility/Requests';
 import AuthContext from './AuthContext';
+import Target from '../types/Target';
 
 type TargetCallback = (data: ConsumableNutrient[]) => void;
 
@@ -37,9 +28,9 @@ export const TargetDataProvider:
   const registerLoadCallback = (callback: (data: ConsumableNutrient[]) => void) => {
     callbackList.current!.push(callback);
   }
-  const set = async (submitted_data: ConsumableNutrient[], name: string,
+  const set = (submitted_data: ConsumableNutrient[], name: string,
       description: string) => {
-    const r = await POST<any, any>('target', {
+    POST<any, any>('target', {
       timestamp: new Date().toISOString(), // TODO: set timestamp on server
       name: name,
       description: description,
@@ -51,7 +42,10 @@ export const TargetDataProvider:
         }
       }),
       user: +authCtx.user_id!
-    }, authCtx.token!);
+    }, authCtx.token!)
+    .then(response => {
+      // success
+    });
   }
   const [contextData, setContextData] = useState<TargetContextData>({
     isLoaded: false,
@@ -61,8 +55,7 @@ export const TargetDataProvider:
   });
   
   useEffect(() => {
-    // TODO: type
-    GET<any[]>('target', authCtx.token!)
+    GET<Target[]>('target', authCtx.token!, {getLatest: true})
     .then((response) => {
       setContextData({
         ...contextData,

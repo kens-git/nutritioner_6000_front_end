@@ -6,25 +6,24 @@ interface ID {
   id: number;
 }
 
-// Takes a type T and returns type U
-type Extract<T, U> = (value: T) => U;
+// Takes a type T and returns subtype U
+type ExtractSubtype<T, U> = (value: T) => U;
 
 type Filter<T> = (value: T) => any;
 
 export interface DataContextData<T extends ID, U> {
   path: string;
   isLoaded: boolean;
-  //result = new Map(arr.map(obj => [obj.key, obj.val]));
   data: Map<number, T>; // TODO: allows mutating in place, add a getter instead
   add: (value: T) => Promise<void>; // TODO: return type
   get: (id: number) => T | undefined; // TODO: only used by list, maybe remove
-  get_params: (params: any) => Promise<T[]>;
-  extract: Extract<T, U>;
+  get_with_params: (params: any) => Promise<T[]>;
+  extract: ExtractSubtype<T, U>;
   filter: (f: Filter<T>) => any[];
 }
 
 export const getDefaultContextData =
-    <T extends ID, U>(path: string, extract: Extract<T, U>):
+    <T extends ID, U>(path: string, extract: ExtractSubtype<T, U>):
       DataContextData<T, U> => {
   return {
     path: path,
@@ -32,7 +31,7 @@ export const getDefaultContextData =
     data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
     get: (id: number) => undefined,
-    get_params: (params: any) => {
+    get_with_params: (params: any) => {
       return new Promise<T[]>(resolve => { resolve([]); }); },
     extract: extract,
     filter: () => []
@@ -54,22 +53,13 @@ export const CreateDataProvider = <T extends ID, U>(
     }
 
     const add = async (value: T) => {
-      console.log(value);
-      await POST<U, U[]>(data.path,
+      await POST<U, T>(data.path,
           { ...data.extract(value), user: +authCtx.user_id! },
           authCtx.token!)
       .then(response => {
+        value.id = response!.data.id;
         setData({
           ...data,
-          // TODO: The back end may assign an ID to the created
-          //       value, so this simple assignment doesn't
-          //       work because value is using a null/invalid
-          //       value for its ID as given by the front end.
-          //       Potentially add a method opposite to extract
-          //       to take the submitted value, the value
-          //       returned from the back end, and combine
-          //       them into the final representation that
-          //       gets stored here.
           data: new Map(data.data.set(value.id, value))
         });
       });
@@ -79,10 +69,9 @@ export const CreateDataProvider = <T extends ID, U>(
       return data.data.get(id);
     }
 
-    const get_params = (params: any) => {
+    const get_with_params = (params: any) => {
       return GET<T[]>(data.path, authCtx.token!, params)
       .then((response) => {
-        //console.log(response!.data);
         return response!.data;
       });
     }
@@ -93,29 +82,21 @@ export const CreateDataProvider = <T extends ID, U>(
       data: data.data,
       add: add,
       get: get,
-      get_params: get_params,
+      get_with_params: get_with_params,
       extract: data.extract,
       filter: applyFilter
     }
 
     // TODO: don't do for intakes
     useEffect(() => {
-      //const getData = async () => {
-        // TODO: what guarantee is there that the token exists when this is run?
-        /* await */ GET<T[]>(data.path, authCtx.token!)
-        .then((response) => {
-          // if(data.path === 'intake') {
-          //   console.log(response!.data);
-          // }
-          setData({
-            ...data,
-            isLoaded: true,
-            data: new Map(response!.data.map(item => [item.id, item]))
-          });
+      GET<T[]>(data.path, authCtx.token!)
+      .then((response) => {
+        setData({
+          ...data,
+          isLoaded: true,
+          data: new Map(response!.data.map(item => [item.id, item]))
         });
-      //}
-
-      //getData();
+      });
     }, []);
 
     return (

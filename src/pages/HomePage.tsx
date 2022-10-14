@@ -34,7 +34,7 @@ const HomePage: React.FC<{}> = (props) => {
     const input = event.currentTarget.value.split('-');
     const date = new Date(+input[0], +input[1] - 1, +input[2]);
     setCurrentDate(date);
-    intakeCtx.get_params(date).then(data => {
+    intakeCtx.get_with_params(date).then(data => {
       setData(data);
     });
   }
@@ -47,7 +47,7 @@ const HomePage: React.FC<{}> = (props) => {
   }
 
   useEffect(() => {
-    intakeCtx.get_params(getDayRangeISOString(currentDate)).then(data => {
+    intakeCtx.get_with_params(getDayRangeISOString(currentDate)).then(data => {
       setData(data);
     });
   });

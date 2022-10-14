@@ -34,14 +34,13 @@ const HomePage: React.FC<{}> = (props) => {
     const input = event.currentTarget.value.split('-');
     const date = new Date(+input[0], +input[1] - 1, +input[2]);
     setCurrentDate(date);
-    intakeCtx.get_with_params(date).then(data => {
+    intakeCtx.get_with_params(getDayRangeISOString(date)).then(data => {
       setData(data);
     });
   }
 
   const onIntakeSubmitted = (intake: Intake) => {
     if(is_same_day(intake.timestamp, currentDate)) {
-      console.log('data set', intake);
       setData([...data, intake]);
     }
   }
@@ -50,7 +49,7 @@ const HomePage: React.FC<{}> = (props) => {
     intakeCtx.get_with_params(getDayRangeISOString(currentDate)).then(data => {
       setData(data);
     });
-  });
+  }, []);
 
   return (
     <>

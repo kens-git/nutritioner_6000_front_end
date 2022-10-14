@@ -75,14 +75,10 @@ interface TableRowData {
         columns.details.length).fill(0)
     }
     for(const nutrient of intake.consumable.nutrients) {
-      const nutrient_index =
-        columns.nutrient_map.get(nutrient.nutrient.id)!;
-      const consumed_nutrients = nutrient.value *
-        intake.serving_size;
-      row.nutrient_values[nutrient_index] =
-        consumed_nutrients;
-      columns.details[nutrient_index].total +=
-        consumed_nutrients;
+      const nutrient_index = columns.nutrient_map.get(nutrient.nutrient.id)!;
+      const consumed_nutrients = nutrient.value * intake.serving_size;
+      row.nutrient_values[nutrient_index] = consumed_nutrients;
+      columns.details[nutrient_index].total += consumed_nutrients;
       columns.details[nutrient_index].is_used = true;
     }
     data.push(row);
@@ -137,12 +133,13 @@ export interface TableProps {
 }
 
 const Table: React.FC<TableProps> = (props) => {
-  const intakeCtx = useContext(IntakeDataContext);
   const nutrientCtx = useContext(NutrientDataContext);
   const targetCtx = useContext(TargetDataContext);
-  const [dates, setDates] = useState<DateRange>();
-  //const [intakeData, setIntakeData] = useState<Intake[]>([]);
 
+  if(!nutrientCtx.isLoaded || !targetCtx.isLoaded) {
+    return <p>Waiting for data...</p>
+  }
+  
   const columns = get_column_data(
     Array.from(nutrientCtx.data.values()),
     targetCtx.data);

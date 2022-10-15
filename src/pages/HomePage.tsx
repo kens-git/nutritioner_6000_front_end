@@ -5,9 +5,14 @@ import InputIntakeForm from "../components/forms/InputIntakeForm";
 import Table from "../components/table/Table";
 import SectionHeader from '../components/ui/SectionHeader';
 import { input_classes } from '../components/tailwind_classes';
-import { is_same_day, set_end_of_day, set_start_of_day } from '../utility/date_utilities';
-import { DateRange } from '../components/table/Table';
+import { is_same_day, set_end_of_day, set_start_of_day }
+  from '../utility/date_utilities';
 import IntakeDataContext from '../store/IntakeDataContext';
+
+interface DateRange {
+  start: Date,
+  end: Date
+}
 
 const getDayRange = (date: Date): DateRange => {
   return {

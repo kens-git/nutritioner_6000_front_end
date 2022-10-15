@@ -21,7 +21,6 @@ const LoginPage: React.FC<{}> = (props) => {
       username: usernameRef.current!.value,
       password: passwordRef.current!.value
     }).then(response => {
-      console.log(response);
       authCtx.login(response!.data.user_id.toString(),
         response!.data.token);
       setLoginError('');

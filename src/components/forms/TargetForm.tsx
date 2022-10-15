@@ -23,7 +23,8 @@ const TargetForm: React.FC<{}> = (props) => {
   return (
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <NutrientValueList className='col-span-2'
-        data={targetCtx.isLoaded ? targetCtx.data : targetCtx.registerLoadCallback}
+        data={targetCtx.isLoaded ?
+          Array.from(targetCtx.data.values()) : targetCtx.registerLoadCallback}
         onListUpdate={setCurrentNutrientList}
         title='Targets' description={DESCRIPTION} />
       <label htmlFor='target-name'>Name</label>

@@ -74,7 +74,6 @@ export const CreateConsumableNutrientDataProvider =
     useEffect(() => {
       GET<T[]>(data.path, authCtx.token!)
       .then((response) => {
-        console.log(response!.data);
         setData({
           ...data,
           data: response!.data.at(-1)!.nutrients

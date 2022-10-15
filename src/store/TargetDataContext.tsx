@@ -13,7 +13,7 @@ type Setter = (submitted_data: ConsumableNutrient[], name: string,
 
 interface TargetContextData {
   isLoaded: boolean;
-  data: ConsumableNutrient[];
+  data: Map<number, ConsumableNutrient>;
   registerLoadCallback: RegisterCallback;
   set: Setter; // TODO: return type
 }
@@ -49,7 +49,7 @@ export const TargetDataProvider:
   }
   const [contextData, setContextData] = useState<TargetContextData>({
     isLoaded: false,
-    data: [],
+    data: new Map<number, ConsumableNutrient>(),
     registerLoadCallback: registerLoadCallback,
     set: set
   });
@@ -60,7 +60,9 @@ export const TargetDataProvider:
       setContextData({
         ...contextData,
         isLoaded: true,
-        data: response!.data.at(-1)!.nutrients
+        //data: response!.data.at(-1)!.nutrients
+        data: new Map(response!.data.at(-1)!.nutrients.map(
+          item => [item.nutrient.id, item]))
       });
       callbackList.current!.forEach(item => {
         item(response!.data.at(-1)!.nutrients);

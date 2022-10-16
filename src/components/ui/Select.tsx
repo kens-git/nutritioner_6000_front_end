@@ -85,7 +85,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
       </select>
     );
   }
-  return <p>No data to display (plz change tho)</p>
+  return <p>No data to display.</p>
 });
 
 export default Select;

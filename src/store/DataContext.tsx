@@ -2,36 +2,36 @@ import { useContext, useEffect, useState } from 'react';
 import AuthContext from './AuthContext';
 import { GET, POST } from '../utility/Requests';
 
-interface ID {
-  id: number;
+type ID = number;
+
+interface ContextDataBase {
+  id: ID;
 }
 
 // Takes a type T and returns subtype U
-type ExtractSubtype<T, U> = (value: T) => U;
+type Subtype<T, U> = (value: T) => U;
 
 type Filter<T> = (value: T) => any;
 
-export interface DataContextData<T extends ID, U> {
+export interface DataContextData<T extends ContextDataBase, U> {
   path: string;
   isLoaded: boolean;
   data: Map<number, T>; // TODO: allows mutating in place, add a getter instead
   add: (value: T) => Promise<void>; // TODO: return type
-  get: (id: number) => T | undefined; // TODO: only used by list, maybe remove
-  get_with_params: (params: any) => Promise<T[]>;
-  extract: ExtractSubtype<T, U>;
+  fetch: (params: any) => Promise<T[]>;
+  extract: Subtype<T, U>;
   filter: (f: Filter<T>) => any[];
 }
 
 export const getDefaultContextData =
-    <T extends ID, U>(path: string, extract: ExtractSubtype<T, U>):
+    <T extends ContextDataBase, U>(path: string, extract: Subtype<T, U>):
       DataContextData<T, U> => {
   return {
     path: path,
     isLoaded: false,
     data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
-    get: (id: number) => undefined,
-    get_with_params: (params: any) => {
+    fetch: (params: any) => {
       return new Promise<T[]>(resolve => { resolve([]); }); },
     extract: extract,
     filter: () => []
@@ -40,7 +40,7 @@ export const getDefaultContextData =
 
 // TODO: the DataContextData 'path' property makes this 'path' parameter redundant
 //        see above TODO about the provider state interface
-export const CreateDataProvider = <T extends ID, U>(
+export const CreateDataProvider = <T extends ContextDataBase, U>(
     context: React.Context<DataContextData<T, U>>,
     defaultValue: DataContextData<T, U>)
     : React.FC<{children: React.ReactNode}> => {
@@ -69,7 +69,7 @@ export const CreateDataProvider = <T extends ID, U>(
       return data.data.get(id);
     }
 
-    const get_with_params = (params: any) => {
+    const fetch = (params: any) => {
       return GET<T[]>(data.path, authCtx.token!, params)
       .then((response) => {
         return response!.data;
@@ -81,8 +81,7 @@ export const CreateDataProvider = <T extends ID, U>(
       isLoaded: data.isLoaded,
       data: data.data,
       add: add,
-      get: get,
-      get_with_params: get_with_params,
+      fetch: fetch,
       extract: data.extract,
       filter: applyFilter
     }

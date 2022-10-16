@@ -18,7 +18,6 @@ const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
   const [time, setTime] = useState<string>(
     new Date().toLocaleTimeString('en-CA', { hour12: false }));
   const servingSizeRef = useRef<HTMLInputElement>(null);
-  const consumableCtx = useContext(ConsumableDataContext);
   const intakeCtx = useContext(IntakeDataContext);
 
   const onDateChanged = (event: any) => {

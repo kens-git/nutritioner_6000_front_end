@@ -60,7 +60,6 @@ export const TargetDataProvider:
       setContextData({
         ...contextData,
         isLoaded: true,
-        //data: response!.data.at(-1)!.nutrients
         data: new Map(response!.data.at(-1)!.nutrients.map(
           item => [item.nutrient.id, item]))
       });

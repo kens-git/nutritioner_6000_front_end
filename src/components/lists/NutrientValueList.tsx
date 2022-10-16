@@ -67,8 +67,7 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
     listDispatch({
       type: NutrientListActionType.ADD,
       payload: {
-        id: -1, // TODO: hint something isn't right
-        nutrient: nutrientCtx.get(nutrient.nutrient_id)!,
+        nutrient: nutrientCtx.data.get(nutrient.nutrient_id)!,
         value: nutrient.value
       }
     });

@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 
-// TODO: params type
 export const GET = <T>(path: string, token: string, params?: any) => {
   return axios.get<T>(
       `${process.env.REACT_APP_HOST}api/${path}/`, {
@@ -10,16 +9,7 @@ export const GET = <T>(path: string, token: string, params?: any) => {
       },
       params: params ? params! : undefined
     })
-    .catch((error: Error | AxiosError) => {
-      console.log(error);
-      if(axios.isAxiosError(error)) {
-        // error.config,
-        // error.request
-        // error.response
-      } else {
-        // 'stock' error, containing ????
-      }
-    });
+    .catch((error: Error | AxiosError) => { /* TODO */  });
 };
 
 export const POST = <T, Response>(
@@ -33,14 +23,5 @@ export const POST = <T, Response>(
   return axios.post<Response>(
       `${process.env.REACT_APP_HOST}api/${path}/`,
       data, config)
-    .catch((error: Error | AxiosError) => {
-      console.log(error);
-      if(axios.isAxiosError(error)) {
-        // error.config,
-        // error.request
-        // error.response
-      } else {
-        // 'stock' error, containing ????
-      }
-    });
+    .catch((error: Error | AxiosError) => { /* TODO */ });
 }

@@ -1,4 +1,4 @@
-import { Context, forwardRef, useContext, useEffect, useState } from 'react';
+import { Context, forwardRef, useContext, useEffect } from 'react';
 import Consumable from '../../types/Consumable';
 import ConsumableCategory from '../../types/ConsumableCategory';
 import Name from '../../types/Name';
@@ -56,10 +56,7 @@ interface SelectProps {
   onChange?: (value: any) => void // TODO: parameter type
 }
 
-const select_classes = 'p-1.5 \
-border border-gray-300 \
-focus:border-sky-300 \
-hover:border-sky-300';
+const select_classes = 'p-1.5 border border-gray-300 focus:border-sky-300 hover:border-sky-300';
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => {
   const dataCtx = useContext(props.dataContext);

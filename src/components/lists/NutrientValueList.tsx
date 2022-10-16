@@ -5,13 +5,12 @@ import NutrientValueInputListItem, { NutrientValueListItemData }
   from "./NutrientValueInputListItem";
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import SectionHeader from "../ui/SectionHeader";
-import { ConsumableNutrientRegisterFunction }
-  from '../../store/ConsumableNutrientDataContext';
+import { RegisterCallback } from '../../store/TargetDataContext';
 
 interface NutrientValueListProps {
   title: string;
   description: string;
-  data: ConsumableNutrient[] | ConsumableNutrientRegisterFunction;
+  data: ConsumableNutrient[] | RegisterCallback;
   onListUpdate: (nutrients: ConsumableNutrient[]) => void;
   className?: string;
 }

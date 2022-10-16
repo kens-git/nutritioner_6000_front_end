@@ -6,7 +6,7 @@ import Target from '../types/Target';
 
 type TargetCallback = (data: ConsumableNutrient[]) => void;
 
-type RegisterCallback = (callback: TargetCallback) => void;
+export type RegisterCallback = (callback: TargetCallback) => void;
 
 type Setter = (submitted_data: ConsumableNutrient[], name: string,
   description: string) => void; // TODO: return type

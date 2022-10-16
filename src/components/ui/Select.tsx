@@ -63,11 +63,9 @@ hover:border-sky-300';
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => {
   const dataCtx = useContext(props.dataContext);
-  const [isIndexSet, setIsIndexSet] = useState<boolean>();
-
-  // TODO: return type shouldn't be any
   const data: any[] = Array.from(dataCtx.data.values());
   const formattedData: SelectItem[] = dataCtx.filter(props.extractItem);
+  const classes = props.className ? props.className! : '';
 
   const onChange = (event: any) => {
     if(props.onChange) {
@@ -75,15 +73,15 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
     }
   }
 
-  const classes = props.className ? props.className! : '';
+  useEffect(() => {
+    if(data.length > 0 && props.onChange) {
+      props.onChange(data[0]);
+    }
+  }, []);
 
   if(data.length > 0) {
-    if(!isIndexSet && props.onChange) {
-      props.onChange(data[0]);
-      setIsIndexSet(true);
-    }
     return (
-      // TODO: don't use onChange if it's not defined
+      // TODO: don't use onChange if it's not defined: look into spread operator for props
       <select className={classes + ' ' + select_classes}
           onChange={onChange} ref={selectRef} id={props.id} name={props.name}>
         {formattedData.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}

@@ -41,8 +41,6 @@ const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
   };
 
   return (
-    // TODO: if no consumables exist, hide this form
-    // TODO: check other cases where values may be null, and hide corresponding components
     <form onSubmit={onSubmit} className={form_classes}>
       <Select id='input-intake-form-name' name='name'
         dataContext={ConsumableDataContext}

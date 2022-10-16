@@ -5,7 +5,7 @@
       "dom",
       "dom.iterable",
       "esnext",
-      "ES2017" // TOOD: why wasn't this working without this?
+      "ES2017" // TODO: why wasn't this working without this?
     ],
     "allowJs": true,
     "skipLibCheck": true,

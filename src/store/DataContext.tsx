@@ -38,8 +38,6 @@ export const getDefaultContextData =
   }
 }
 
-// TODO: the DataContextData 'path' property makes this 'path' parameter redundant
-//        see above TODO about the provider state interface
 export const CreateDataProvider = <T extends ContextDataBase, U>(
     context: React.Context<DataContextData<T, U>>,
     defaultValue: DataContextData<T, U>)

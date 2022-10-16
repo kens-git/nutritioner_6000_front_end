@@ -61,7 +61,7 @@ const select_classes = 'p-1.5 border border-gray-300 focus:border-sky-300 hover:
 const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => {
   const dataCtx = useContext(props.dataContext);
   const data: any[] = Array.from(dataCtx.data.values());
-  const formattedData: SelectItem[] = dataCtx.filter(props.extractItem);
+  const formattedData: SelectItem[] = data.map(item => { return props.extractItem(item); });
   const classes = props.className ? props.className! : '';
 
   const onChange = (event: any) => {

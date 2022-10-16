@@ -11,16 +11,13 @@ interface ContextDataBase {
 // Takes a type T and returns subtype U
 type Subtype<T, U> = (value: T) => U;
 
-type Filter<T> = (value: T) => any;
-
 export interface DataContextData<T extends ContextDataBase, U> {
   path: string;
   isLoaded: boolean;
-  data: Map<number, T>; // TODO: allows mutating in place, add a getter instead
-  add: (value: T) => Promise<void>; // TODO: return type
+  data: Map<number, T>;
+  add: (value: T) => Promise<void>;
   fetch: (params: any) => Promise<T[]>;
   extract: Subtype<T, U>;
-  filter: (f: Filter<T>) => any[];
 }
 
 export const getDefaultContextData =
@@ -33,8 +30,7 @@ export const getDefaultContextData =
     add: () => { return new Promise(() => {}); },
     fetch: (params: any) => {
       return new Promise<T[]>(resolve => { resolve([]); }); },
-    extract: extract,
-    filter: () => []
+    extract: extract
   }
 }
 
@@ -46,12 +42,8 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
     const authCtx = useContext(AuthContext);
     const [data, setData] = useState<DataContextData<T, U>>(defaultValue);
 
-    const applyFilter = (filter: Filter<T>) => {
-      return Array.from(contextData.data.values()).map(filter);
-    }
-
-    const add = async (value: T) => {
-      await POST<U, T>(data.path,
+    const add = (value: T) => {
+      return POST<U, T>(data.path,
           { ...data.extract(value), user: +authCtx.user_id! },
           authCtx.token!)
       .then(response => {
@@ -61,10 +53,6 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
           data: new Map(data.data.set(value.id, value))
         });
       });
-    }
-
-    const get = (id: number) => {
-      return data.data.get(id);
     }
 
     const fetch = (params: any) => {
@@ -80,8 +68,7 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
       data: data.data,
       add: add,
       fetch: fetch,
-      extract: data.extract,
-      filter: applyFilter
+      extract: data.extract
     }
 
     // TODO: don't do for intakes

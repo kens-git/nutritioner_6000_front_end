@@ -1,7 +1,8 @@
+import Id from './Id';
 import Nutrient from './Nutrient';
 
 interface ConsumableNutrient {
-  id: number;
+  id: Id;
   nutrient: Nutrient;
   value: number
 }

@@ -1,5 +1,7 @@
+import Id from "./Id";
+
 interface User {
-  id: number;
+  id: Id;
   username: string;
 }
 

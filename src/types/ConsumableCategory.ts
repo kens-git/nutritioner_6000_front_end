@@ -1,7 +1,8 @@
+import Id from './Id';
 import Name from './Name';
 
 interface ConsumableCategory {
-  id: number;
+  id: Id;
   name: Name;
   description: string;
 }

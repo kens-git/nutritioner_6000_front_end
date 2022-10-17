@@ -1,10 +1,10 @@
 import ConsumableCategory from "./ConsumableCategory";
 import ConsumableNutrient from './ConsumableNutrient'
-import Name from './Name'
+import Id from "./Id";
 import Unit from './Unit'
 
 interface Consumable {
-  id: number;
+  id: Id;
   name: string;
   category: ConsumableCategory;
   unit: Unit;

@@ -1,7 +1,8 @@
 import Consumable from "./Consumable";
+import Id from "./Id";
 
 interface Intake {
-  id: number;
+  id: Id;
   timestamp: Date;
   consumable: Consumable;
   serving_size: number;

@@ -1,5 +1,7 @@
+import Id from "./Id";
+
 export interface Name {
-  id: number;
+  id: Id;
   name: string;
   abbreviation: string;
   plural: string;

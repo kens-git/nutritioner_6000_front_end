@@ -1,7 +1,8 @@
+import Id from './Id';
 import Name from './Name'
 
 interface Unit {
-  id: number;
+  id: Id;
   name: Name;
   description: string;
 }

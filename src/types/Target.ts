@@ -1,8 +1,9 @@
 import ConsumableNutrient from "./ConsumableNutrient";
+import Id from "./Id";
 import Name from "./Name";
 
 interface Target {
-  id: number;
+  id: Id;
   timestamp: Date;
   name: Name;
   description: string;

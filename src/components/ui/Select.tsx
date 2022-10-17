@@ -1,4 +1,4 @@
-import { Context, forwardRef, useContext, useEffect } from 'react';
+import { Context, forwardRef, useContext, useEffect, useState } from 'react';
 import Consumable from '../../types/Consumable';
 import ConsumableCategory from '../../types/ConsumableCategory';
 import Name from '../../types/Name';
@@ -53,7 +53,7 @@ interface SelectProps {
   className?: string;
   dataContext: Context<any>;
   extractItem: (value: any) => any;
-  onChange?: (value: any) => void // TODO: parameter type
+  onChange: (value: any) => void // TODO: parameter type
 }
 
 const select_classes = 'p-1.5 border border-gray-300 focus:border-sky-300 hover:border-sky-300';
@@ -62,19 +62,19 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
   const dataCtx = useContext(props.dataContext);
   const data: any[] = Array.from(dataCtx.data.values());
   const formattedData: SelectItem[] = data.map(item => { return props.extractItem(item); });
+  const [isIndexSet, setIsIndexSet] = useState<boolean>(false);
   const classes = props.className ? props.className! : '';
 
   const onChange = (event: any) => {
-    if(props.onChange) {
-      props.onChange(data[event.target.options.selectedIndex]);
-    }
+    props.onChange(data[event.target.options.selectedIndex]);
   }
 
   useEffect(() => {
-    if(data.length > 0 && props.onChange) {
+    if(!isIndexSet && data.length > 0) {
+      setIsIndexSet(true);
       props.onChange(data[0]);
     }
-  }, []);
+  });
 
   if(data.length > 0) {
     return (

@@ -3,6 +3,7 @@ import ConsumableNutrient from '../types/ConsumableNutrient';
 import { GET, POST } from '../utility/Requests';
 import AuthContext from './AuthContext';
 import Target from '../types/Target';
+import Id from '../types/Id';
 
 type TargetCallback = (data: ConsumableNutrient[]) => void;
 
@@ -13,7 +14,7 @@ type Setter = (submitted_data: ConsumableNutrient[], name: string,
 
 interface TargetContextData {
   isLoaded: boolean;
-  data: Map<number, ConsumableNutrient>;
+  data: Map<Id, ConsumableNutrient>;
   registerLoadCallback: RegisterCallback;
   set: Setter; // TODO: return type
 }
@@ -53,7 +54,7 @@ export const TargetDataProvider:
     registerLoadCallback: registerLoadCallback,
     set: set
   });
-  
+
   useEffect(() => {
     GET<Target[]>('target', authCtx.token!, {getLatest: true})
     .then((response) => {

@@ -18,10 +18,9 @@ const NewNutrientForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     nutrientCtx.add({
-      id: -1,
-      name: name!,
+      name: name!.id,
       description: descriptionRef.current!.value,
-      unit: unit!,
+      unit: unit!.id,
       is_macronutrient: isMacronutrientRef.current!.checked
     });
   };

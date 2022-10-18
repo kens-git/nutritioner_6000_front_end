@@ -22,10 +22,9 @@ const NewConsumableForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     consumableCtx.add({
-      id: -1,
       name: nameRef.current!.value,
-      category: category!,
-      unit: unit!,
+      category: category!.id,
+      unit: unit!.id,
       reference_size: +referenceSizeRef.current!.value,
       nutrients: nutrientList
     });

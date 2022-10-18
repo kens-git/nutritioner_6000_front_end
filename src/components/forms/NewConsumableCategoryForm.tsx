@@ -15,8 +15,7 @@ const NewConsumableCategoryForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     categoryCtx.add({
-      id: -1,
-      name: name!,
+      name: name!.id,
       description: descriptionRef.current!.value
     });
   };

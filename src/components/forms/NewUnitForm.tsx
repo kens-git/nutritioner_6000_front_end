@@ -15,10 +15,8 @@ const NewUnitForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     unitCtx.add({
-      id: -1,
-      name: name!,
+      name: name!.id,
       description: descriptionRef.current!.value
-      //user: +authCtx.user_id!
     })
   };
 

@@ -1,27 +1,26 @@
 import { useContext, useEffect, useState } from 'react';
 import AuthContext from './AuthContext';
 import { GET, POST } from '../utility/Requests';
-
-type ID = number;
+import Id from '../types/Id';
 
 interface ContextDataBase {
-  id: ID;
+  id: Id;
 }
 
 // Takes a type T and returns subtype U
-type Subtype<T, U> = (value: T) => U;
+type ExtractSubtype<T, U> = (value: T) => U;
 
 export interface DataContextData<T extends ContextDataBase, U> {
   path: string;
   isLoaded: boolean;
   data: Map<number, T>;
-  add: (value: T) => Promise<void>;
+  add: (value: U) => Promise<Id>;
   fetch: (params: any) => Promise<T[]>;
-  extract: Subtype<T, U>;
+  extract: ExtractSubtype<T, U>;
 }
 
 export const getDefaultContextData =
-    <T extends ContextDataBase, U>(path: string, extract: Subtype<T, U>):
+    <T extends ContextDataBase, U>(path: string, extract: ExtractSubtype<T, U>):
       DataContextData<T, U> => {
   return {
     path: path,
@@ -42,15 +41,20 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
     const authCtx = useContext(AuthContext);
     const [data, setData] = useState<DataContextData<T, U>>(defaultValue);
 
-    const add = (value: T) => {
+    const add = (value: U) => {
       return POST<U, T>(data.path,
-          { ...data.extract(value), user: +authCtx.user_id! },
+          { ...value, user: +authCtx.user_id! },
           authCtx.token!)
       .then(response => {
-        value.id = response!.data.id;
-        setData({
-          ...data,
-          data: new Map(data.data.set(value.id, value))
+        // TODO: format server response to avoid this extra request.
+        return GET<T>(data.path + '/' + response!.data.id.toString(), authCtx.token!)
+        .then(response => {
+          const id = response!.data.id;
+          setData({
+            ...data,
+            data: new Map(data.data.set(id, response!.data))
+          });
+          return id;
         });
       });
     }

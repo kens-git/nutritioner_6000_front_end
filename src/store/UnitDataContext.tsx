@@ -1,9 +1,10 @@
 import React from 'react';
+import Id from '../types/Id';
 import Unit from '../types/Unit';
 import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
 
 export interface NewUnit {
-  name: number,
+  name: Id,
   description: string
 }
 

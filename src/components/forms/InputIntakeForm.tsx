@@ -7,6 +7,7 @@ import { button_classes, form_classes, input_classes }
 import IntakeDataContext from '../../store/IntakeDataContext';
 import Consumable from '../../types/Consumable';
 import Intake from '../../types/Intake';
+import { NewIntake } from '../../store/IntakeDataContext';
 
 interface InputIntakeFormProps {
   onSubmit: (intake: Intake) => void;
@@ -30,14 +31,14 @@ const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    const intake: Intake = {
-      id: -1,
+    const intake: NewIntake = {
       timestamp: new Date(date + 'T' + time),
-      consumable: consumable!,
+      consumable: consumable!.id,
       serving_size: +servingSizeRef.current!.value
     };
-    intakeCtx.add(intake);
-    props.onSubmit(intake);
+    intakeCtx.add(intake).then(id => {
+      props.onSubmit(intakeCtx.data.get(id)!);
+    });
   };
 
   return (

@@ -45,7 +45,7 @@ const HomePage: React.FC<{}> = (props) => {
   }
 
   const onIntakeSubmitted = (intake: Intake) => {
-    if(is_same_day(intake.timestamp, currentDate)) {
+    if(is_same_day(new Date(intake.timestamp), currentDate)) {
       setData([...data, intake]);
     }
   }

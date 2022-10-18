@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import Select, { extractNameItem } from "../ui/Select";
+import Select from '../ui/Select';
+import { extractNameItem } from "../ui/SelectItem";
 import NameDataContext from '../../store/NameDataContext';
 import Name from "../../types/Name";
 import { button_classes, input_classes }

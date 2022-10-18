@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import AuthContext from "../../store/AuthContext";
-import Select, { extractNameItem } from "../ui/Select";
+import Select from '../ui/Select';
+import { extractNameItem } from "../ui/SelectItem";
 import Name from "../../types/Name";
 import NameDataContext, { NameDataProvider } from "../../store/NameDataContext";
 import UnitDataContext from "../../store/UnitDataContext";

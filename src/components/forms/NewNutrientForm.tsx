@@ -1,7 +1,8 @@
 import { useContext, useRef, useState } from 'react';
 import Name from '../../types/Name';
 import NameDataContext from "../../store/NameDataContext";
-import Select, { extractNameItem, extractUnitItem } from "../ui/Select";
+import Select from '../ui/Select';
+import { extractNameItem, extractUnitItem } from "../ui/SelectItem";
 import UnitDataContext from "../../store/UnitDataContext";
 import { button_classes, input_classes }
   from "../tailwind_classes";

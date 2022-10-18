@@ -1,7 +1,8 @@
 import { useContext, useRef, useState } from 'react';
 import ConsumableDataContext
   from "../../store/ConsumableDataContext";
-import Select, { extractConsumableItem } from "../ui/Select";
+import Select from '../ui/Select';
+import { extractConsumableItem } from "../ui/SelectItem";
 import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";
 import IntakeDataContext from '../../store/IntakeDataContext';

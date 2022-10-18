@@ -1,8 +1,8 @@
 import { useContext, useRef, useState } from 'react';
 import ConsumableCategoryDataContext from "../../store/ConsumableCategoryDataContext";
 import NutrientValueList from "../lists/NutrientValueList";
-import Select, { extractNameItem, extractUnitItem, extractConsumableCategoryItem }
-  from "../ui/Select";
+import Select from '../ui/Select';
+import { extractUnitItem, extractConsumableCategoryItem } from "../ui/SelectItem";
 import UnitDataContext from "../../store/UnitDataContext";
 import { button_classes, form_classes, input_classes }
   from "../tailwind_classes";

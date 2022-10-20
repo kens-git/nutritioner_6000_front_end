@@ -2,22 +2,34 @@ import { useContext, useEffect, useReducer } from "react";
 import NutrientDataContext from "../../store/NutrientDataContext";
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import NutrientValueInputListItem, { NutrientValueListItemData }
-  from "./NutrientValueInputListItem";
+  from '../lists/NutrientValueInputListItem';
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import SectionHeader from "../ui/SectionHeader";
+import { DataContextData, RegisterCallback } from '../../store/DataContext';
+import Target from '../../types/Target';
 import Id from "../../types/Id";
+import { getLatest } from "../../utility/context_utilities";
 import useFormattedDataContextData from '../../hooks/FormattedDataContextData';
-import nutrientListReducer, { NutrientListActionType } from "./NutrientListReducer";
+import nutrientListReducer, { NutrientListActionType } from './NutrientListReducer';
+
+interface ContextData {
+  context: React.Context<DataContextData<any, any>>;
+  formatter: (data: Map<Id, any>) => ConsumableNutrient[];
+}
 
 interface NutrientValueListProps {
-  data: ConsumableNutrient[];
+  title: string;
+  description: string;
+  contextData: ContextData;
   onListUpdate: (nutrients: ConsumableNutrient[]) => void;
   className?: string;
 }
 
 const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
   const nutrientCtx = useContext(NutrientDataContext);
-  const [listState, listDispatch] = useReducer(nutrientListReducer, props.data);
+  const [listState, listDispatch] = useReducer(nutrientListReducer, []);
+  const nutrientData =
+    useFormattedDataContextData(props.contextData.context, props.contextData.formatter);
 
   const onItemAdded = (nutrient: NutrientValueListItemData) => {
     // TODO: needs to convert DVs to scalars
@@ -37,12 +49,34 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
     });
   }
 
+  // const onDataLoaded = (data: Map<Id, Target>) => {
+  //   if(listState.length !== 0) {
+  //     return;
+  //   }
+  //   const latest = getLatest(data);
+  //   listDispatch({
+  //     type: NutrientListActionType.SET,
+  //     payload: latest ? latest.nutrients : []
+  //   })
+  // }
+
   useEffect(() => {
     props.onListUpdate(listState);
   }, [listState]);
 
+  useEffect(() => {
+    if(listState.length === 0) {
+      listDispatch({
+        type: NutrientListActionType.SET,
+        payload: nutrientData
+      });
+    }
+  }, [nutrientData]);
+  //console.log('NVList rendered', props.data);
   return (
     <div className={props.className ? props.className! : ''}>
+      <SectionHeader label={props.title}/>
+      <h2 className='mb-2'>{props.description}</h2>
       {listState.length == 0 &&
         <h2 className='italic text-gray-500'>No data to display.</h2>}
       {listState.map((nutrient: ConsumableNutrient, index: number) => {

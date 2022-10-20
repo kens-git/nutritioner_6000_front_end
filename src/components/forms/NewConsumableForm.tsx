@@ -47,7 +47,7 @@ const NewConsumableForm: React.FC<{}> = (props) => {
       <input ref={referenceSizeRef} className={input_classes}
         id='new-consumable-reference-size' name='reference-size' type='number' min='0' />
       <NutrientValueList className='col-span-2' data={[]}
-        onListUpdate={setNutrientList} title='' description=''/>
+        onListUpdate={setNutrientList} />
       <button className={button_classes + ' col-span-2'} type='submit'>Submit</button>
     </form>
   );

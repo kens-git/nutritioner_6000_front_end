@@ -1,30 +1,49 @@
 import { useContext, useRef, useState } from "react";
-import NutrientValueList from "../lists/NutrientValueList";
+import RemoteNutrientValueList from "../lists/RemoteNutrientValueList";
 import TargetDataContext from "../../store/TargetDataContext";
 import { button_classes, input_classes }
   from "../tailwind_classes";
 import ConsumableNutrient from "../../types/ConsumableNutrient";
+import { getLatest } from "../../utility/context_utilities";
+import useFormattedDataContextData from "../../hooks/FormattedDataContextData";
+import Id from "../../types/Id";
+import Target from "../../types/Target";
 
 const DESCRIPTION = 'Targets define the desired daily intake for a particular nutrient.';
+
+const formatTargetData = (data: Map<Id, Target>) => {
+  if(data.size === 0) {
+    return [];
+  }
+  return getLatest(data)!.nutrients;
+}
 
 const TargetForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const targetCtx = useContext(TargetDataContext);
+  const targetNutrients =
+    useFormattedDataContextData(TargetDataContext, formatTargetData);
   const [currentNutrientList, setCurrentNutrientList] =
     useState<ConsumableNutrient[]>([]);
 
   const onSubmit = (event: any) => {
     event.preventDefault();
-    targetCtx.set(currentNutrientList, nameRef.current!.value,
-      descriptionRef.current!.value);
+    targetCtx.add({
+      timestamp: new Date().toISOString(),
+      name: nameRef.current!.value,
+      description: descriptionRef.current!.value,
+      nutrients: currentNutrientList
+    });
   };
 
   return (
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
-      <NutrientValueList className='col-span-2'
-        data={targetCtx.isLoaded ?
-          Array.from(targetCtx.data.values()) : targetCtx.registerLoadCallback}
+      <RemoteNutrientValueList className='col-span-2'
+        contextData={{
+          context: TargetDataContext,
+          formatter: formatTargetData
+        }}
         onListUpdate={setCurrentNutrientList}
         title='Targets' description={DESCRIPTION} />
       <label htmlFor='target-name'>Name</label>

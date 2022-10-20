@@ -7,6 +7,7 @@ import { button_classes, form_classes, input_classes }
   from '../tailwind_classes';
 
 export interface NutrientValueListItemData {
+  // TODO: can this just store the Nutrient instead of the id?
   nutrient_id: number;
   value: number;
   isDV: boolean;

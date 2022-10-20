@@ -53,7 +53,7 @@ const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
       <input className={input_classes} type='time'
         onChange={onTimeChanged} defaultValue={time} step={1} required />
       <input ref={servingSizeRef} className={input_classes} type='number'
-        placeholder='Serving Size' min={0} required />
+        placeholder={`Serving Size (${consumable ? consumable!.unit.name.abbreviation : ''})`} min={0} required />
       <button className={button_classes}
         type='submit'>Submit</button>
     </form>

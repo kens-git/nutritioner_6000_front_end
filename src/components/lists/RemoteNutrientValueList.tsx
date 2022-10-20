@@ -26,7 +26,6 @@ interface NutrientValueListProps {
 }
 
 const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
-  const nutrientCtx = useContext(NutrientDataContext);
   const [listState, listDispatch] = useReducer(nutrientListReducer, []);
   const nutrientData =
     useFormattedDataContextData(props.contextData.context, props.contextData.formatter);

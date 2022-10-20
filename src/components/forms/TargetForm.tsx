@@ -22,8 +22,6 @@ const TargetForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const targetCtx = useContext(TargetDataContext);
-  const targetNutrients =
-    useFormattedDataContextData(TargetDataContext, formatTargetData);
   const [currentNutrientList, setCurrentNutrientList] =
     useState<ConsumableNutrient[]>([]);
 

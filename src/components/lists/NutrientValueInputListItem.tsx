@@ -15,7 +15,7 @@ export interface NutrientValueListItemData {
 
 interface NutrientValueInputListItemProps {
   isDVShown: boolean;
-  onSubmit: (data: NutrientValueListItemData) => void;
+  onSubmit: (data: NutrientValueListItemData) => void;  
 }
 
 const NutrientValueInputListItem:
@@ -82,7 +82,7 @@ const NutrientValueInputListItem:
       <Select onChange={onInputChange} id='nutrient-value-nutrient-name'
         name='name' dataContext={NutrientDataContext} extractItem={extractNutrientItem} />
       <input className={input_classes + ' w-28'} ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
-        placeholder='Value' />
+        placeholder={`Value (${nutrient ? nutrient!.unit.name.abbreviation : ''})`} />
       {props.isDVShown &&
         <>
           <input ref={scalarRef} id='nutrient-value-input-scalar' name='value-type'

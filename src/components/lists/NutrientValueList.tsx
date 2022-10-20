@@ -4,9 +4,6 @@ import ConsumableNutrient from "../../types/ConsumableNutrient";
 import NutrientValueInputListItem, { NutrientValueListItemData }
   from "./NutrientValueInputListItem";
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
-import SectionHeader from "../ui/SectionHeader";
-import Id from "../../types/Id";
-import useFormattedDataContextData from '../../hooks/FormattedDataContextData';
 import nutrientListReducer, { NutrientListActionType } from "./NutrientListReducer";
 
 interface NutrientValueListProps {
@@ -20,7 +17,6 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
   const [listState, listDispatch] = useReducer(nutrientListReducer, props.data);
 
   const onItemAdded = (nutrient: NutrientValueListItemData) => {
-    // TODO: needs to convert DVs to scalars
     listDispatch({
       type: NutrientListActionType.ADD,
       payload: {
@@ -54,7 +50,7 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
           index={index}
           onRemove={onItemRemoved} />
       })}
-      <NutrientValueInputListItem onSubmit={onItemAdded} />
+      <NutrientValueInputListItem onSubmit={onItemAdded} isDVShown={true} />
     </div>
   );
 }

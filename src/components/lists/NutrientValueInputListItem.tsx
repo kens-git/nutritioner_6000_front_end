@@ -1,19 +1,22 @@
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Nutrient from '../../types/Nutrient';
 import NutrientDataContext from '../../store/NutrientDataContext';
 import Select from '../ui/Select';
 import { extractNutrientItem } from '../ui/SelectItem';
 import { button_classes, form_classes, input_classes }
   from '../tailwind_classes';
+import DailyValueDataContext from '../../store/DailyValueDataContext';
+import { getLatest } from '../../utility/context_utilities';
+import Id from '../../types/Id';
 
 export interface NutrientValueListItemData {
   // TODO: can this just store the Nutrient instead of the id?
   nutrient_id: number;
   value: number;
-  isDV: boolean;
 }
 
 interface NutrientValueInputListItemProps {
+  isDVShown: boolean;
   onSubmit: (data: NutrientValueListItemData) => void;
 }
 
@@ -22,22 +25,46 @@ const NutrientValueInputListItem:
   const selectRef = useRef<HTMLSelectElement>(null);
   const valueRef = useRef<HTMLInputElement>(null);
   const scalarRef = useRef<HTMLInputElement>(null);
+  const dailyValueCtx = useContext(DailyValueDataContext);
+  const [inputError, setInputError] = useState<string>();
   const [unit, setUnit] = useState('');
+  const [nutrientId, setNutrientId] = useState<Id>();
 
   const onSubmit = () => {
     if(valueRef.current!.value && +valueRef.current!.value > 0) {
+      let value = +valueRef.current!.value;
+      if(scalarRef.current && !scalarRef.current!.checked) {
+        if(!dailyValueCtx.isLoaded) {
+          setInputError('Daily values are currently not loaded.');
+          return;
+        }
+        const dailyValue = getLatest(dailyValueCtx.data);
+        if(!dailyValue) {
+          setInputError('No daily values set.');
+          return;
+        }
+        const nutrientValue = dailyValue.nutrients.find(value => {
+          return value.nutrient.id === nutrientId;
+        });
+        if(!nutrientValue) {
+          setInputError('No daily value set for given nutrient.');
+          return;
+        }
+        value = value / 100 * nutrientValue.value;
+      }
+      setInputError(undefined);
       props.onSubmit({
         nutrient_id: +selectRef.current!.value,
-        value: +valueRef.current!.value,
-        isDV: !scalarRef.current!.checked
+        value: value
       });
     } else {
-      // TODO: show some error
+      setInputError('Value must be greater than zero.')
     }
   }
 
   const onInputChange = (nutrient: Nutrient) => {
-    setUnit(`${nutrient.unit.name.plural}`)
+    setUnit(`${nutrient.unit.name.plural}`);
+    setNutrientId(nutrient.id);
   }
 
   const onValueInputKey = (event: any) => {
@@ -54,15 +81,20 @@ const NutrientValueInputListItem:
 
   return (
     <div className={form_classes}>
+      {inputError && <p>{inputError}</p>}
       <Select ref={selectRef} onChange={onInputChange} id='nutrient-value-nutrient-name'
         name='name' dataContext={NutrientDataContext} extractItem={extractNutrientItem} />
       <input className={input_classes + ' w-28'} ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
         placeholder='Value' />
-      <input ref={scalarRef} id='nutrient-value-input-scalar' name='value-type'
-        value='scalar' type='radio' defaultChecked />
-      <label htmlFor='nutrient-value-input-scalar'>{unit}</label>
-      <input id='nutrient-value-input-dv' name='value-type' value='dv-pct' type='radio' />
-      <label htmlFor='nutrient-value-input-dv'>DV%</label>
+      {props.isDVShown &&
+        <>
+          <input ref={scalarRef} id='nutrient-value-input-scalar' name='value-type'
+            value='scalar' type='radio' defaultChecked />
+          <label htmlFor='nutrient-value-input-scalar'>{unit}</label>
+          <input id='nutrient-value-input-dv' name='value-type' value='dv-pct' type='radio' />
+          <label htmlFor='nutrient-value-input-dv'>DV%</label>
+        </>
+      }
       <button className={button_classes} onClick={onAddButtonClick}>Add</button>
     </div>
   );

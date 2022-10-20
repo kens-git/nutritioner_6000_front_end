@@ -9,7 +9,7 @@ export enum NutrientListActionType {
 
 export interface NutrientListAction {
   type: NutrientListActionType;
-  payload: any;
+  payload: any; // TODO: type
 }
 
 const nutrientListReducer = (state: ConsumableNutrient[],

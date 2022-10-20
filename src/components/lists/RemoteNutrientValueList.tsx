@@ -5,7 +5,7 @@ import NutrientValueInputListItem, { NutrientValueListItemData }
   from '../lists/NutrientValueInputListItem';
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import SectionHeader from "../ui/SectionHeader";
-import { DataContextData, RegisterCallback } from '../../store/DataContext';
+import { DataContextData } from '../../store/DataContext';
 import Target from '../../types/Target';
 import Id from "../../types/Id";
 import { getLatest } from "../../utility/context_utilities";
@@ -32,7 +32,6 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
     useFormattedDataContextData(props.contextData.context, props.contextData.formatter);
 
   const onItemAdded = (nutrient: NutrientValueListItemData) => {
-    // TODO: needs to convert DVs to scalars
     listDispatch({
       type: NutrientListActionType.ADD,
       payload: {
@@ -49,17 +48,6 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
     });
   }
 
-  // const onDataLoaded = (data: Map<Id, Target>) => {
-  //   if(listState.length !== 0) {
-  //     return;
-  //   }
-  //   const latest = getLatest(data);
-  //   listDispatch({
-  //     type: NutrientListActionType.SET,
-  //     payload: latest ? latest.nutrients : []
-  //   })
-  // }
-
   useEffect(() => {
     props.onListUpdate(listState);
   }, [listState]);
@@ -72,7 +60,7 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
       });
     }
   }, [nutrientData]);
-  //console.log('NVList rendered', props.data);
+
   return (
     <div className={props.className ? props.className! : ''}>
       <SectionHeader label={props.title}/>
@@ -88,7 +76,7 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
           index={index}
           onRemove={onItemRemoved} />
       })}
-      <NutrientValueInputListItem onSubmit={onItemAdded} />
+      <NutrientValueInputListItem onSubmit={onItemAdded} isDVShown={false} />
     </div>
   );
 }

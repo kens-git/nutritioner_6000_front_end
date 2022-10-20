@@ -1,10 +1,10 @@
 import React from 'react';
 import Consumable from '../types/Consumable';
 import ConsumableNutrient from '../types/ConsumableNutrient';
-import Nutrient from '../types/Nutrient';
 import { CreateDataProvider, DataContextData,
   getDefaultContextData } from "./DataContext";
 
+// TODO: Id, move
 export interface NewConsumable {
   name: string;
   category: number;
@@ -13,28 +13,8 @@ export interface NewConsumable {
   nutrients: ConsumableNutrient[];
 }
 
-const extractNewConsumable =
-    (consumable: Consumable): NewConsumable => {
-  return {
-    name: consumable.name,
-    category: consumable.category.id,
-    unit: consumable.unit.id,
-    reference_size: consumable.reference_size,
-     // TODO: convenient, but broken return type
-    nutrients: consumable.nutrients.map((item): any => {
-      return {
-        id: -1,
-        nutrient: item.nutrient.id,
-        value: item.value,
-        user: 1
-      }
-    })
-  }
-}
-
 const default_data =
-  getDefaultContextData<Consumable, NewConsumable>(
-    'consumable', extractNewConsumable);
+  getDefaultContextData<Consumable, NewConsumable>('consumable', true);
 const ConsumableDataContext =
   React.createContext<DataContextData<Consumable, NewConsumable>>(
     default_data);

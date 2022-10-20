@@ -3,24 +3,15 @@ import Intake from '../types/Intake';
 import { CreateDataProvider, DataContextData,
   getDefaultContextData } from "./DataContext";
 
+// TODO: move
 export interface NewIntake {
   timestamp: Date,
   consumable: number,
   serving_size: number;
 }
 
-const extractNewIntake =
-    (intake: Intake): NewIntake => {
-  return {
-    timestamp: intake.timestamp,
-    consumable: intake.consumable.id,
-    serving_size: intake.serving_size
-  }
-}
-
 const default_data =
-  getDefaultContextData<Intake, NewIntake>(
-    'intake', extractNewIntake);
+  getDefaultContextData<Intake, NewIntake>('intake', false);
 const IntakeDataContext =
   React.createContext<DataContextData<Intake, NewIntake>>(
     default_data);

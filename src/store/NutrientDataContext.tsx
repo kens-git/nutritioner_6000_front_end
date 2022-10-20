@@ -10,18 +10,8 @@ export interface NewNutrient {
   is_macronutrient: boolean;
 }
 
-const extractNewNutrient = (nutrient: Nutrient): NewNutrient => {
-  return {
-    name: nutrient.name.id,
-    description: nutrient.description,
-    unit: nutrient.unit.id,
-    is_macronutrient: nutrient.is_macronutrient
-  }
-}
-
 const default_data =
-  getDefaultContextData<Nutrient, NewNutrient>(
-    'nutrient', extractNewNutrient);
+  getDefaultContextData<Nutrient, NewNutrient>('nutrient', true);
 const NutrientDataContext =
   React.createContext<DataContextData<Nutrient, NewNutrient>>(default_data);
 export const NutrientDataProvider =

@@ -1,25 +1,19 @@
 import React from 'react';
 import Id from '../types/Id';
 import Unit from '../types/Unit';
-import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
+import { CreateDataProvider, DataContextData, getDefaultContextData }
+  from "./DataContext";
 
+// TODO: move
 export interface NewUnit {
   name: Id,
   description: string
 }
 
-const extractNewUnit = (unit: Unit): NewUnit => {
-  return {
-    name: unit.name.id,
-    description: unit.description
-  }
-}
-
-const default_data = getDefaultContextData<Unit, NewUnit>(
-  'unit', extractNewUnit);
+const defaultData = getDefaultContextData<Unit, NewUnit>('unit', true);
 const UnitDataContext =
-  React.createContext<DataContextData<Unit, NewUnit>>(default_data);
+  React.createContext<DataContextData<Unit, NewUnit>>(defaultData);
 export const UnitDataProvider =
-  CreateDataProvider<Unit, NewUnit>(UnitDataContext, default_data);
+  CreateDataProvider<Unit, NewUnit>(UnitDataContext, defaultData);
 
 export default UnitDataContext;

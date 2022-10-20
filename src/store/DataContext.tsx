@@ -1,58 +1,63 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import AuthContext from './AuthContext';
 import { GET, POST } from '../utility/Requests';
 import Id from '../types/Id';
 
-interface ContextDataBase {
+export interface ContextDataBase {
   id: Id;
 }
 
-// Takes a type T and returns subtype U
-type ExtractSubtype<T, U> = (value: T) => U;
+export type LoadCallback<T extends ContextDataBase> = (data: Map<Id, T>) => void;
+
+export type RegisterCallback<T extends ContextDataBase> =
+  (callback: LoadCallback<T>) => void;
 
 export interface DataContextData<T extends ContextDataBase, U> {
   path: string;
   isLoaded: boolean;
+  isPreloaded: boolean;
   data: Map<number, T>;
   add: (value: U) => Promise<Id>;
   fetch: (params: any) => Promise<T[]>;
-  extract: ExtractSubtype<T, U>;
+  registerLoadCallback: RegisterCallback<T>;
 }
 
 export const getDefaultContextData =
-    <T extends ContextDataBase, U>(path: string, extract: ExtractSubtype<T, U>):
+    <T extends ContextDataBase, U>(path: string, isPreloaded: boolean):
       DataContextData<T, U> => {
   return {
     path: path,
     isLoaded: false,
+    isPreloaded: isPreloaded,
     data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
     fetch: (params: any) => {
       return new Promise<T[]>(resolve => { resolve([]); }); },
-    extract: extract
+    registerLoadCallback: (callback: LoadCallback<T>) => {}
   }
 }
 
 export const CreateDataProvider = <T extends ContextDataBase, U>(
     context: React.Context<DataContextData<T, U>>,
-    defaultValue: DataContextData<T, U>)
+    defaultData: DataContextData<T, U>)
     : React.FC<{children: React.ReactNode}> => {
   return (props) => {
     const authCtx = useContext(AuthContext);
-    const [data, setData] = useState<DataContextData<T, U>>(defaultValue);
+    const [data, setData] = useState<DataContextData<T, U>>(defaultData);
+    const callbackList = useRef<Array<(data: Map<Id, T>) => void>>([]);
 
     const add = (value: U) => {
-      return POST<U, T>(data.path,
+      return POST<U, T>(data!.path,
           { ...value, user: +authCtx.user_id! },
           authCtx.token!)
       .then(response => {
-        // TODO: format server response to avoid this extra request.
-        return GET<T>(data.path + '/' + response!.data.id.toString(), authCtx.token!)
+        // TODO: Potentially format server response to avoid this extra request.
+        return GET<T>(data!.path + '/' + response!.data.id.toString(), authCtx.token!)
         .then(response => {
           const id = response!.data.id;
           setData({
-            ...data,
-            data: new Map(data.data.set(id, response!.data))
+            ...data!,
+            data: new Map(data!.data.set(id, response!.data))
           });
           return id;
         });
@@ -60,31 +65,39 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
     }
 
     const fetch = (params: any) => {
-      return GET<T[]>(data.path, authCtx.token!, params)
+      return GET<T[]>(data!.path, authCtx.token!, params)
       .then((response) => {
         return response!.data;
       });
     }
 
-    const contextData: DataContextData<T, U> = {
-      path: data.path,
-      isLoaded: data.isLoaded,
-      data: data.data,
-      add: add,
-      fetch: fetch,
-      extract: data.extract
+    const registerLoadCallback = (callback: LoadCallback<T>) => {
+      callbackList.current!.push(callback);
     }
 
-    // TODO: don't do for intakes
+    const contextData: DataContextData<T, U> = {
+      path: data!.path,
+      isLoaded: data!.isLoaded,
+      isPreloaded: data!.isPreloaded,
+      data: data!.data,
+      add: add,
+      fetch: fetch,
+      registerLoadCallback: registerLoadCallback
+    }
+
     useEffect(() => {
-      GET<T[]>(data.path, authCtx.token!)
-      .then((response) => {
-        setData({
-          ...data,
-          isLoaded: true,
-          data: new Map(response!.data.map(item => [item.id, item]))
+      if(data!.isPreloaded) {
+        GET<T[]>(data!.path, authCtx.token!)
+        .then((response) => {
+          const loadedData = new Map(response!.data.map(item => [item.id, item]));
+          setData({
+            ...data!,
+            isLoaded: true,
+            data: loadedData
+          });
+          callbackList.current.forEach(callback => { callback(loadedData); });
         });
-      });
+      }
     }, []);
 
     return (

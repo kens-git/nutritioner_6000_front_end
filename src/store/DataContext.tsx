@@ -19,7 +19,6 @@ export interface DataContextData<T extends ContextDataBase, U> {
   data: Map<number, T>;
   add: (value: U) => Promise<Id>;
   fetch: (params: any) => Promise<T[]>;
-  registerLoadCallback: RegisterCallback<T>;
 }
 
 export const getDefaultContextData =
@@ -32,8 +31,7 @@ export const getDefaultContextData =
     data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
     fetch: (params: any) => {
-      return new Promise<T[]>(resolve => { resolve([]); }); },
-    registerLoadCallback: (callback: LoadCallback<T>) => {}
+      return new Promise<T[]>(resolve => { resolve([]); }); }
   }
 }
 
@@ -81,8 +79,7 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
       isPreloaded: data!.isPreloaded,
       data: data!.data,
       add: add,
-      fetch: fetch,
-      registerLoadCallback: registerLoadCallback
+      fetch: fetch
     }
 
     useEffect(() => {

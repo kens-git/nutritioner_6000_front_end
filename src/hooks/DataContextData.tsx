@@ -14,12 +14,8 @@ const useDataContextData =
   }
   
   useEffect(() => {
-    if(dataCtx.isLoaded) {
-      setData(dataCtx.data);
-    } else {
-      dataCtx.registerLoadCallback(onLoad);
-    }
-  }, []);
+    setData(dataCtx.data);
+  }, [dataCtx.data]);
   
   return data;
 }

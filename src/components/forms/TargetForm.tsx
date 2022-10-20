@@ -5,12 +5,17 @@ import { button_classes, input_classes }
   from "../tailwind_classes";
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import { getLatest } from "../../utility/context_utilities";
-import useFormattedDataContextData from "../../hooks/FormattedDataContextData";
 import Id from "../../types/Id";
 import Target from "../../types/Target";
 
 const DESCRIPTION = 'Targets define the desired daily intake for a particular nutrient.';
 
+/**
+ * Returns the consumable nutrients of the Target with the highest Id.
+ * 
+ * @param data The data to search.
+ * @returns An array containing the Target's consumable nutrients.
+ */
 const formatTargetData = (data: Map<Id, Target>) => {
   if(data.size === 0) {
     return [];
@@ -18,6 +23,9 @@ const formatTargetData = (data: Map<Id, Target>) => {
   return getLatest(data)!.nutrients;
 }
 
+/**
+ * A form for submitting a new Target.
+ */
 const TargetForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);

@@ -8,6 +8,9 @@ import UnitDataContext from "../../store/UnitDataContext";
 import { button_classes, input_classes }
   from "../tailwind_classes";
 
+/**
+ * A form for submitting a new Unit.
+ */
 const NewUnitForm: React.FC<{}> = (props) => {
   const [name, setName] = useState<Name>();
   const descriptionRef = useRef<HTMLInputElement>(null);

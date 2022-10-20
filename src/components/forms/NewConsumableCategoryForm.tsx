@@ -8,6 +8,9 @@ import { button_classes, input_classes }
 import { useContext } from "react";
 import ConsumableCategoryDataContext from "../../store/ConsumableCategoryDataContext";
 
+/**
+ * A form for submitting a new ConsumableCategory.
+ */
 const NewConsumableCategoryForm: React.FC<{}> = (props) => {
   const [name, setName] = useState<Name>();
   const descriptionRef = useRef<HTMLInputElement>(null);

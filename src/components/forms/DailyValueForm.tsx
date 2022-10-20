@@ -15,19 +15,26 @@ serving has 250mg of Vitamin C. These values are used when inputting new consuma
 value for a particular nutrient is given as a percentage. The default values are based on \
 Health Canada's document, Nutrition Labeling: Table of Daily Values.`;
 
-const formatDailyValueData = (data: Map<Id, DailyValue>) => {
+/**
+ * Returns the consumable nutrients of the DailyValue with the highest Id.
+ * 
+ * @param data The data to search.
+ * @returns An array containing the DailyValue's consumable nutrients.
+ */
+const formatDailyValueData = (data: Map<Id, DailyValue>): ConsumableNutrient[] => {
   if(data.size === 0) {
     return [];
   }
   return getLatest(data)!.nutrients;
 }
 
+/**
+ * A form for updating daily values.
+ */
 const DailyValueForm: React.FC<{}> = (props) => {
   const dailyValueCtx = useContext(DailyValueDataContext);
   const [currentNutrientList, setCurrentNutrientList] =
     useState<ConsumableNutrient[]>([]);
-    const dailyValueNutrients =
-      useFormattedDataContextData(DailyValueDataContext, formatDailyValueData);
 
   const onSubmit = (event: any) => {
     event.preventDefault();

@@ -5,13 +5,9 @@ import { POST } from '../../utility/Requests';
 import { button_classes, input_classes }
   from "../tailwind_classes";
 
-interface NameSubmit {
-  user: number,
-  name: string,
-  abbreviation: string,
-  plural: string;
-}
-
+/**
+ * A form for submitting a new Name.
+ */
 const NewNameForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const abbrRef = useRef<HTMLInputElement>(null);
@@ -28,7 +24,6 @@ const NewNameForm: React.FC<{}> = (props) => {
   };
 
   return (
-    // TODO: CSRF tokens for forms?
     <form className='max-w-lg gap-1.5 grid grid-cols-2'
         onSubmit={onSubmit}>
       <label htmlFor='new-name-name'>Name</label>

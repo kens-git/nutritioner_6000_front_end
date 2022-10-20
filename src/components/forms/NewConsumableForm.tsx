@@ -11,6 +11,9 @@ import Unit from '../../types/Unit';
 import ConsumableNutrient from '../../types/ConsumableNutrient';
 import ConsumableDataContext from '../../store/ConsumableDataContext';
 
+/**
+ * A form for submitting a new Consumable.
+ */
 const NewConsumableForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const [category, setCategory] = useState<ConsumableCategory>();

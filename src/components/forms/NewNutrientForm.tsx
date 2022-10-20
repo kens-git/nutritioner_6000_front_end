@@ -9,6 +9,9 @@ import { button_classes, input_classes }
 import Unit from '../../types/Unit';
 import NutrientDataContext from '../../store/NutrientDataContext';
 
+/**
+ * A form for submitting a new Nutrient.
+ */
 const NewNutrientForm: React.FC<{}> = (props) => {
   const [name, setName] = useState<Name>();
   const descriptionRef = useRef<HTMLInputElement>(null);

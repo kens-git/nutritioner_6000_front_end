@@ -11,9 +11,18 @@ import Intake from '../../types/Intake';
 import NewIntake from '../../types/new/NewIntake';
 
 interface InputIntakeFormProps {
+
+  /**
+   * Function to call when an intake is successfully submitted.
+   * 
+   * @param intake The submitted intake.
+   */
   onSubmit: (intake: Intake) => void;
 }
 
+/**
+ * A form for submitting intakes.
+ */
 const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
   const [consumable, setConsumable] = useState<Consumable>();
   const [date, setDate] = useState<string>(new Date().toLocaleDateString('en-CA'));

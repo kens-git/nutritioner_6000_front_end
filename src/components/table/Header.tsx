@@ -1,10 +1,14 @@
 import React from 'react';
 import { ColumnDetails } from './types';
 
+/** Defines the props accepted by Header. */
 interface HeaderProps {
+
+  /** The column details used to populate the Header. */
   details: ColumnDetails[];
 }
 
+/** Component to display a table Header. */
 const Header: React.FC<HeaderProps> = (props) => {
   return (
     <tr>

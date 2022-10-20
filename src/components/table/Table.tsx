@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import ConsumableNutrient from "../../types/ConsumableNutrient";
 import Intake from "../../types/Intake";
 import Nutrient from "../../types/Nutrient";
 import Target from '../../types/Target';
@@ -11,6 +10,15 @@ import IntakeRow from './IntakeRow';
 import InfoRow, { extractTarget, extractTotal }  from './InfoRow';
 import { getLatest } from '../../utility/context_utilities';
 
+/**
+ * Builds table row data from the given columns and intake data.
+ * Updates the given columns' target and is_used properties as
+ * the row data is assigned.
+ * 
+ * @param columns The table's columns.
+ * @param intakes The intake's to construct the row data from.
+ * @returns The row data.
+ */
 const construct_row_data = (columns: Columns, intakes: Intake[]): Row[] => {
   const data: Row[] = [];
   for(const intake of intakes) {
@@ -35,7 +43,15 @@ const construct_row_data = (columns: Columns, intakes: Intake[]): Row[] => {
   return data;
 }
 
+/**
+ * Sorts the given nutrients alphabetically, inserting macronutrients
+ * before micronutrients.
+ * 
+ * @param nutrients The nutrients to sort.
+ * @returns The sorted nutrients.
+ */
 const sort_nutrients = (nutrients: Nutrient[]) => {
+  // TODO: sort nutrients in place instead of copying?
   const sorted_nutrients = [...nutrients];
   sorted_nutrients.sort((first, second) => {
     if(first.is_macronutrient || second.is_macronutrient) {
@@ -50,11 +66,18 @@ const sort_nutrients = (nutrients: Nutrient[]) => {
   return sorted_nutrients;
 }
 
+/**
+ * Constructs column data from the given nutrients and target.
+ * 
+ * @param nutrients The nutrients to be displayed in the table.
+ * @param targets The target.
+ * @returns The column data.
+ */
 const construct_column_data = (nutrients: Nutrient[],
-    targets: Target | undefined) => {
+    target: Target | undefined) => {
   const sorted_nutrients = sort_nutrients(nutrients);
   const target_nutrients =
-    new Map(targets?.nutrients.map(consumable_nutrient =>
+    new Map(target?.nutrients.map(consumable_nutrient =>
       [consumable_nutrient.nutrient.id, consumable_nutrient]));
   const columns: Columns = {
     nutrient_map: new Map<NutrientId, ColumnIndex>(),
@@ -74,10 +97,14 @@ const construct_column_data = (nutrients: Nutrient[],
   return columns;
 }
 
+/** Defines the props accepted by the Table. */
 export interface TableProps {
+
+  /** Intakes to display. */
   data: Intake[];
 }
 
+/** Displays a table of daily intakes. */
 const Table: React.FC<TableProps> = (props) => {
   const nutrientCtx = useContext(NutrientDataContext);
   const targetCtx = useContext(TargetDataContext);
@@ -102,7 +129,7 @@ const Table: React.FC<TableProps> = (props) => {
               return <IntakeRow
                 key={row.name + index}
                 row={row}
-                column_details={columns.details} />
+                columnDetails={columns.details} />
             })}
             <tr className='h-4'></tr>
             <InfoRow

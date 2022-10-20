@@ -3,6 +3,9 @@ import AuthContext from './AuthContext';
 import { GET, POST } from '../utility/Requests';
 import Id from '../types/Id';
 
+/** DataContext's data structure type. */
+export type DataContextMap<T> = Map<Id, T>;
+
 /** Defines the base type that a DataContext's data type extends. */
 export interface ContextDataBase {
 
@@ -26,7 +29,7 @@ export interface DataContextData<T extends ContextDataBase, U> {
   isPreloaded: boolean;
 
   /** The current data cache. */
-  data: Map<number, T>;
+  data: DataContextMap<T>;
 
   /**
    * Submits a value to the endpoint using a POST request.

@@ -1,4 +1,4 @@
-import { Context, forwardRef, useContext, useEffect, useState } from 'react';
+import { Context, useContext, useEffect, useState } from 'react';
 import SelectItem from './SelectItem';
 
 interface SelectProps {
@@ -12,7 +12,7 @@ interface SelectProps {
 
 const select_classes = 'p-1.5 border border-gray-300 focus:border-sky-300 hover:border-sky-300';
 
-const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => {
+const Select: React.FC<SelectProps> = (props) => {
   const dataCtx = useContext(props.dataContext);
   const data: any[] = Array.from(dataCtx.data.values());
   const formattedData: SelectItem[] = data.map(item => { return props.extractItem(item); });
@@ -33,12 +33,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
   if(data.length > 0) {
     return (
       <select className={classes + ' ' + select_classes}
-          onChange={onChange} ref={selectRef} id={props.id} name={props.name}>
+          onChange={onChange} id={props.id} name={props.name}>
         {formattedData.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
       </select>
     );
   }
   return <p>No values to select.</p>
-});
+};
 
 export default Select;

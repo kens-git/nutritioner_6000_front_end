@@ -7,10 +7,9 @@ import { button_classes, form_classes, input_classes }
   from '../tailwind_classes';
 import DailyValueDataContext from '../../store/DailyValueDataContext';
 import { getLatest } from '../../utility/context_utilities';
-import Id from '../../types/Id';
 
 export interface NutrientValueListItemData {
-  nutrient: Id;
+  nutrient: Nutrient;
   value: number;
 }
 
@@ -21,13 +20,12 @@ interface NutrientValueInputListItemProps {
 
 const NutrientValueInputListItem:
     React.FC<NutrientValueInputListItemProps> = (props) => {
-  const selectRef = useRef<HTMLSelectElement>(null);
   const valueRef = useRef<HTMLInputElement>(null);
   const scalarRef = useRef<HTMLInputElement>(null);
   const dailyValueCtx = useContext(DailyValueDataContext);
   const [inputError, setInputError] = useState<string>();
   const [unit, setUnit] = useState('');
-  const [nutrientId, setNutrientId] = useState<Id>();
+  const [nutrient, setNutrient] = useState<Nutrient>();
 
   const onSubmit = () => {
     if(valueRef.current!.value && +valueRef.current!.value > 0) {
@@ -43,7 +41,7 @@ const NutrientValueInputListItem:
           return;
         }
         const nutrientValue = dailyValue.nutrients.find(value => {
-          return value.nutrient.id === nutrientId;
+          return value.nutrient.id === nutrient!.id;
         });
         if(!nutrientValue) {
           setInputError('No daily value set for given nutrient.');
@@ -53,7 +51,7 @@ const NutrientValueInputListItem:
       }
       setInputError(undefined);
       props.onSubmit({
-        nutrient: +selectRef.current!.value,
+        nutrient: nutrient!,
         value: value
       });
     } else {
@@ -63,7 +61,7 @@ const NutrientValueInputListItem:
 
   const onInputChange = (nutrient: Nutrient) => {
     setUnit(`${nutrient.unit.name.plural}`);
-    setNutrientId(nutrient.id);
+    setNutrient(nutrient);
   }
 
   const onValueInputKey = (event: any) => {
@@ -81,7 +79,7 @@ const NutrientValueInputListItem:
   return (
     <div className={form_classes}>
       {inputError && <p>{inputError}</p>}
-      <Select ref={selectRef} onChange={onInputChange} id='nutrient-value-nutrient-name'
+      <Select onChange={onInputChange} id='nutrient-value-nutrient-name'
         name='name' dataContext={NutrientDataContext} extractItem={extractNutrientItem} />
       <input className={input_classes + ' w-28'} ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
         placeholder='Value' />

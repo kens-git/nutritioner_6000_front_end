@@ -16,12 +16,12 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
   const nutrientCtx = useContext(NutrientDataContext);
   const [listState, listDispatch] = useReducer(nutrientListReducer, props.data);
 
-  const onItemAdded = (nutrient: NutrientValueListItemData) => {
+  const onItemAdded = (data: NutrientValueListItemData) => {
     listDispatch({
       type: NutrientListActionType.ADD,
       payload: {
-        nutrient: nutrientCtx.data.get(nutrient.nutrient)!,
-        value: nutrient.value
+        nutrient: data.nutrient,
+        value: data.value
       }
     });
   }

@@ -5,30 +5,11 @@ import InputIntakeForm from "../components/forms/InputIntakeForm";
 import Table from "../components/table/Table";
 import SectionHeader from '../components/ui/SectionHeader';
 import { input_classes } from '../components/tailwind_classes';
-import { is_same_day, set_end_of_day, set_start_of_day }
+import { is_same_day, getDayRangeISOString }
   from '../utility/date_utilities';
 import IntakeDataContext from '../store/IntakeDataContext';
 
-interface DateRange {
-  start: Date,
-  end: Date
-}
-
-const getDayRange = (date: Date): DateRange => {
-  return {
-    start: set_start_of_day(new Date(date.getTime())),
-    end: set_end_of_day(new Date(date.getTime()))
-  }
-}
-
-const getDayRangeISOString = (date: Date): {start: string, end: string} => {
-  const range = getDayRange(date);
-  return {
-    start: range.start.toISOString(),
-    end: range.end.toISOString()
-  }
-}
-
+/** Component displaying the home page. */
 const HomePage: React.FC<{}> = (props) => {
   const intakeCtx = useContext(IntakeDataContext);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());

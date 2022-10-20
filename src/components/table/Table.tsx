@@ -11,11 +11,7 @@ import IntakeRow from './IntakeRow';
 import InfoRow, { extractTarget, extractTotal }  from './InfoRow';
 import { getLatest } from '../../utility/context_utilities';
 
-  // TODO: when to use types, return types?
-  //       when to omit?
-  // TODO: may create a side effect of updating totals,
-  //       so rename
-const get_row_data = (columns: Columns, intakes: Intake[]): Row[] => {
+const construct_row_data = (columns: Columns, intakes: Intake[]): Row[] => {
   const data: Row[] = [];
   for(const intake of intakes) {
     const row: Row = {
@@ -54,7 +50,7 @@ const sort_nutrients = (nutrients: Nutrient[]) => {
   return sorted_nutrients;
 }
 
-const get_column_data = (nutrients: Nutrient[],
+const construct_column_data = (nutrients: Nutrient[],
     targets: Target | undefined) => {
   const sorted_nutrients = sort_nutrients(nutrients);
   const target_nutrients =
@@ -67,7 +63,7 @@ const get_column_data = (nutrients: Nutrient[],
     columns.nutrient_map.set(nutrient.id, index);
     const target_nutrient = target_nutrients.get(nutrient.id);
     columns.details.push({
-      nutrient_id: nutrient.id,
+      nutrient: nutrient.id,
       name: nutrient.name.name + ' (' +
         nutrient.unit.name.abbreviation + ')',
       target: target_nutrient ? target_nutrient.value : 0,
@@ -88,41 +84,40 @@ const Table: React.FC<TableProps> = (props) => {
   if(!nutrientCtx.isLoaded || !targetCtx.isLoaded) {
     return <p>Waiting for data...</p>
   }
-  const columns = get_column_data(
+  const columns = construct_column_data(
     Array.from(nutrientCtx.data.values()), getLatest(targetCtx.data));
-  const row_data = get_row_data(columns, props.data);
-  if(row_data.length === 0) { // TODO: inline
-    return (
-      <p>No data to display.</p>
-    )
-  }
+  const row_data = construct_row_data(columns, props.data);
+
   return (
-    <div className='overflow-auto'>
-      <table className='mt-2 w-full text-left'>
-        <thead className='text-gray-700 italic border-b-2 border-b-sky-300'>
-          <Header details={columns.details} />
-        </thead>
-        <tbody>
-          {row_data.map((row, index) => {
-            return <IntakeRow
-              key={row.name + index}
-              row={row}
-              column_details={columns.details} />
-          })}
-          <tr className='h-4'></tr>
-          <InfoRow
-            row={{name: 'Target', nutrient_values: []}}
-            column_details={columns.details}
-            extract={extractTarget}
-          />
-          <InfoRow
-            row={{name: 'Total', nutrient_values: []}}
-            column_details={columns.details}
-            extract={extractTotal}
-          />
-        </tbody>
-      </table>
-    </div>
+    row_data.length === 0 ?
+      <p>No data to display.</p>
+    :
+      <div className='overflow-auto'>
+        <table className='mt-2 w-full text-left'>
+          <thead className='text-gray-700 italic border-b-2 border-b-sky-300'>
+            <Header details={columns.details} />
+          </thead>
+          <tbody>
+            {row_data.map((row, index) => {
+              return <IntakeRow
+                key={row.name + index}
+                row={row}
+                column_details={columns.details} />
+            })}
+            <tr className='h-4'></tr>
+            <InfoRow
+              row={{name: 'Target', nutrient_values: []}}
+              column_details={columns.details}
+              extract={extractTarget}
+            />
+            <InfoRow
+              row={{name: 'Total', nutrient_values: []}}
+              column_details={columns.details}
+              extract={extractTotal}
+            />
+          </tbody>
+        </table>
+      </div>
   );
 }
 

@@ -1,11 +1,7 @@
 import React from 'react';
-import ConsumableNutrient from '../types/ConsumableNutrient';
+import NewDailyValue from '../types/new/NewDailyValue';
 import DailyValue from "../types/DailyValue";
 import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
-
-interface NewDailyValue {
-  nutrients: ConsumableNutrient[];
-}
 
 const defaultData =
   getDefaultContextData<DailyValue, NewDailyValue>('daily-value', true);

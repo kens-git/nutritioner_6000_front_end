@@ -26,7 +26,6 @@ const NewNameForm: React.FC<{}> = (props) => {
       name: nameRef.current!.value,
       abbreviation: abbrRef.current!.value,
       plural: pluralRef.current!.value
-      //user: authCtx.user_id
     });
   };
 
@@ -38,7 +37,6 @@ const NewNameForm: React.FC<{}> = (props) => {
       <input className={input_classes} id='new-name-name' name='name' type='text' max='200' required
         ref={nameRef} />
       <label htmlFor='new-name-abbreviation'>Abbreviation</label>
-      {/* TODO: abbr. required? */}
       <input className={input_classes} id='new-name-abbreviation' name='abbreviation' max='15' required
         ref={abbrRef} />
       <label htmlFor='new-name-plural'>Plural</label>

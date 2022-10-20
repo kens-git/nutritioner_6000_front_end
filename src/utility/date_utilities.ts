@@ -1,4 +1,3 @@
-// TODO: check best practices, if these should return a copy instead
 export const set_end_of_day = (date: Date) => {
   date.setHours(23, 59, 59, 999);
   return date;

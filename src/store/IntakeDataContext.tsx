@@ -2,13 +2,7 @@ import React from 'react';
 import Intake from '../types/Intake';
 import { CreateDataProvider, DataContextData,
   getDefaultContextData } from "./DataContext";
-
-// TODO: move
-export interface NewIntake {
-  timestamp: Date,
-  consumable: number,
-  serving_size: number;
-}
+import NewIntake from '../types/new/NewIntake';
 
 const default_data =
   getDefaultContextData<Intake, NewIntake>('intake', false);

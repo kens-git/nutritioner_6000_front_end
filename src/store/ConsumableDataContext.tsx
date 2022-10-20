@@ -1,17 +1,8 @@
 import React from 'react';
 import Consumable from '../types/Consumable';
-import ConsumableNutrient from '../types/ConsumableNutrient';
 import { CreateDataProvider, DataContextData,
   getDefaultContextData } from "./DataContext";
-
-// TODO: Id, move
-export interface NewConsumable {
-  name: string;
-  category: number;
-  unit: number;
-  reference_size: number;
-  nutrients: ConsumableNutrient[];
-}
+import NewConsumable from '../types/new/NewConsumable';
 
 const default_data =
   getDefaultContextData<Consumable, NewConsumable>('consumable', true);

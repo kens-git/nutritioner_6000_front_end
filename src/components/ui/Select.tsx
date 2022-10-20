@@ -7,7 +7,7 @@ interface SelectProps {
   className?: string;
   dataContext: Context<any>;
   extractItem: (value: any) => any;
-  onChange: (value: any) => void // TODO: parameter type
+  onChange: (value: any) => void;
 }
 
 const select_classes = 'p-1.5 border border-gray-300 focus:border-sky-300 hover:border-sky-300';
@@ -32,7 +32,6 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, selectRef) => 
 
   if(data.length > 0) {
     return (
-      // TODO: don't use onChange if it's not defined: look into spread operator for props
       <select className={classes + ' ' + select_classes}
           onChange={onChange} ref={selectRef} id={props.id} name={props.name}>
         {formattedData.map(item => <option key={item.id} value={item.id}>{item.label}</option>)}

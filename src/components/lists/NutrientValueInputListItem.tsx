@@ -10,8 +10,7 @@ import { getLatest } from '../../utility/context_utilities';
 import Id from '../../types/Id';
 
 export interface NutrientValueListItemData {
-  // TODO: can this just store the Nutrient instead of the id?
-  nutrient_id: number;
+  nutrient: Id;
   value: number;
 }
 
@@ -54,7 +53,7 @@ const NutrientValueInputListItem:
       }
       setInputError(undefined);
       props.onSubmit({
-        nutrient_id: +selectRef.current!.value,
+        nutrient: +selectRef.current!.value,
         value: value
       });
     } else {

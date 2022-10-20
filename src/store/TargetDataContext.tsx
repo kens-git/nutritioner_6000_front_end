@@ -1,15 +1,7 @@
 import React from 'react';
-import ConsumableNutrient from '../types/ConsumableNutrient';
+import NewTarget from '../types/new/NewTarget';
 import Target from "../types/Target";
 import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
-
-// TODO: move
-interface NewTarget {
-  timestamp: string;
-  name: string;
-  description: string;
-  nutrients: ConsumableNutrient[];
-}
 
 const defaultData = getDefaultContextData<Target, NewTarget>('target', true);
 const TargetDataContext =

@@ -8,7 +8,7 @@ import { button_classes, form_classes, input_classes }
 import IntakeDataContext from '../../store/IntakeDataContext';
 import Consumable from '../../types/Consumable';
 import Intake from '../../types/Intake';
-import { NewIntake } from '../../store/IntakeDataContext';
+import NewIntake from '../../types/new/NewIntake';
 
 interface InputIntakeFormProps {
   onSubmit: (intake: Intake) => void;

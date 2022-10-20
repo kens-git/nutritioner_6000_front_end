@@ -1,9 +1,10 @@
 export type NutrientId = number;
 export type ColumnIndex = number;
 export type ColumnMap = Map<NutrientId, ColumnIndex>;
+import Id from "../../types/Id";
 
 export interface ColumnDetails {
-  nutrient_id: number;
+  nutrient: Id;
   name: string;
   target: number;
   total: number;

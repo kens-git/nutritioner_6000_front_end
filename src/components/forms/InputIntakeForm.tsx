@@ -33,7 +33,7 @@ const InputIntakeForm: React.FC<InputIntakeFormProps> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     const intake: NewIntake = {
-      timestamp: new Date(date + 'T' + time),
+      timestamp: new Date(date + 'T' + time).toISOString(),
       consumable: consumable!.id,
       serving_size: +servingSizeRef.current!.value
     };

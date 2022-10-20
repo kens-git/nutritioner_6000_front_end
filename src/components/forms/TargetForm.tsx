@@ -31,7 +31,12 @@ const TargetForm: React.FC<{}> = (props) => {
       timestamp: new Date().toISOString(),
       name: nameRef.current!.value,
       description: descriptionRef.current!.value,
-      nutrients: currentNutrientList
+      nutrients: currentNutrientList.map(nutrient => {
+        return {
+          nutrient: nutrient.nutrient.id,
+          value: nutrient.value
+        }
+      })
     });
   };
 

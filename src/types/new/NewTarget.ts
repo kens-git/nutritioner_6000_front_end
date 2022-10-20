@@ -1,10 +1,11 @@
-import ConsumableNutrient from '../ConsumableNutrient';
+import NewConsumableNutrient from './NewConsumableNutrient';
 
 interface NewTarget {
+  // ISO string
   timestamp: string;
   name: string;
   description: string;
-  nutrients: ConsumableNutrient[];
+  nutrients: NewConsumableNutrient[];
 }
 
 export default NewTarget;

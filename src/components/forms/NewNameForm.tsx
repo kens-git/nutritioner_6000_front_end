@@ -16,13 +16,11 @@ const NewNameForm: React.FC<{}> = (props) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const abbrRef = useRef<HTMLInputElement>(null);
   const pluralRef = useRef<HTMLInputElement>(null);
-  const authCtx = useContext(AuthContext);
   const nameDataCtx = useContext(NameContext);
 
   const onSubmit = (event: any) => {
     event.preventDefault();
     nameDataCtx.add({
-      id: -1,
       name: nameRef.current!.value,
       abbreviation: abbrRef.current!.value,
       plural: pluralRef.current!.value

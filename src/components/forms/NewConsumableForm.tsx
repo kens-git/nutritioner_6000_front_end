@@ -26,7 +26,12 @@ const NewConsumableForm: React.FC<{}> = (props) => {
       category: category!.id,
       unit: unit!.id,
       reference_size: +referenceSizeRef.current!.value,
-      nutrients: nutrientList
+      nutrients: nutrientList.map(nutrient => {
+        return {
+          nutrient: nutrient.nutrient.id,
+          value: nutrient.value
+        }
+      })
     });
   };
 

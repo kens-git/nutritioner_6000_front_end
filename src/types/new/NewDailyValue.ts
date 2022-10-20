@@ -1,7 +1,7 @@
-import ConsumableNutrient from '../ConsumableNutrient';
+import NewConsumableNutrient from './NewConsumableNutrient';
 
 interface NewDailyValue {
-  nutrients: ConsumableNutrient[];
+  nutrients: NewConsumableNutrient[];
 }
 
 export default NewDailyValue;

@@ -1,11 +1,12 @@
 import React from 'react';
 import Name from '../types/Name';
+import NewName from '../types/new/NewName';
 import { CreateDataProvider, DataContextData, getDefaultContextData } from "./DataContext";
 
-const default_data = getDefaultContextData<Name, Name>('name', true);
+const default_data = getDefaultContextData<Name, NewName>('name', true);
 const NameDataContext =
-  React.createContext<DataContextData<Name, Name>>(default_data);
+  React.createContext<DataContextData<Name, NewName>>(default_data);
 export const NameDataProvider =
-  CreateDataProvider<Name, Name>(NameDataContext, default_data);
+  CreateDataProvider<Name, NewName>(NameDataContext, default_data);
 
 export default NameDataContext;

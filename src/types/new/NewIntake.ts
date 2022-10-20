@@ -1,7 +1,8 @@
 import Id from "../Id";
 
 interface NewIntake {
-  timestamp: Date,
+  // ISO string
+  timestamp: string,
   consumable: Id,
   serving_size: number;
 }

@@ -32,7 +32,12 @@ const DailyValueForm: React.FC<{}> = (props) => {
   const onSubmit = (event: any) => {
     event.preventDefault();
     dailyValueCtx.add({
-      nutrients: currentNutrientList
+      nutrients: currentNutrientList.map(nutrient => {
+        return {
+          nutrient: nutrient.nutrient.id,
+          value: nutrient.value
+        }
+      })
     });
   };
 

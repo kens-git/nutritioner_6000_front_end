@@ -3,17 +3,48 @@ import AuthContext from './AuthContext';
 import { GET, POST } from '../utility/Requests';
 import Id from '../types/Id';
 
+/** Defines the base type that a DataContext's data type extends. */
 export interface ContextDataBase {
+
+  /** The id of the value, as assigned by the back end. */
   id: Id;
 }
 
+/** Defines the data type used by a DataContext. */
 export interface DataContextData<T extends ContextDataBase, U> {
+
+  /** The path to the API endpoint. */
   path: string;
+
+  /** The loaded state of the context's data cache. */
   isLoaded: boolean;
+
+  /**
+   * Determines if the DataContext will load all data from the
+   * endpoint on its initial render.
+   */
   isPreloaded: boolean;
+
+  /** The current data cache. */
   data: Map<number, T>;
+
+  /**
+   * Submits a value to the endpoint using a POST request.
+   * Created values are then added to the data cache.
+   * 
+   * @param value The value to submit.
+   * @returns The id of the created value.
+   */
   add: (value: U) => Promise<Id>;
-  fetch: (params: any) => Promise<T[]>;
+
+  /**
+   * Submits a GET request to the endpoint with query parameters.
+   * Doesn't add the response data to the data cache.
+   * 
+   * @param query_params The query parameters to send with the request.
+   * @returns The queried data.
+   */
+  fetch: (query_params: any) => Promise<T[]>;
 }
 
 export const getDefaultContextData =
@@ -25,11 +56,18 @@ export const getDefaultContextData =
     isPreloaded: isPreloaded,
     data: new Map<number, T>(),
     add: () => { return new Promise(() => {}); },
-    fetch: (params: any) => {
+    fetch: (query_params: any) => {
       return new Promise<T[]>(resolve => { resolve([]); }); }
   }
 }
 
+/**
+ * Function that returns a provider for the given DataContext.
+ * 
+ * @param context The context to create a provider for.
+ * @param defaultData The initial context data.
+ * @returns A provider for the context.
+ */
 export const CreateDataProvider = <T extends ContextDataBase, U>(
     context: React.Context<DataContextData<T, U>>,
     defaultData: DataContextData<T, U>)
@@ -57,8 +95,8 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
       });
     }
 
-    const fetch = (params: any) => {
-      return GET<T[]>(data!.path, authCtx.token!, params)
+    const fetch = (query_params: any) => {
+      return GET<T[]>(data!.path, authCtx.token!, query_params)
       .then((response) => {
         return response!.data;
       });

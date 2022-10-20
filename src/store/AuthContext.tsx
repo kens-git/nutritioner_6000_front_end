@@ -1,14 +1,34 @@
 import React from 'react'
 import { useState } from 'react'
 
+/** Defines the AuthContext's data. */
 export interface AuthContextData {
+
+  /** The current user's authentication token. */
   token: string | null;
+
+  /** The current user's id. */
   user_id: string | null;
+
+  /** Returns true if the user is logged in. */
   isLoggedIn(): boolean;
+
+  /**
+   * Stores the current user's authentication
+   * 
+   * @param user_id The id of the current user.
+   * @param token The current user's authentication token.
+   */
   login(user_id: string, token: string): void;
+  
+  /**
+   * Erases the current user's authentication token and id,
+   * logging them out.
+   */
   logout(): void;
 }
 
+/** Defines a context for handling user sessions. */
 const AuthContext =
   React.createContext<AuthContextData>({
     token: null,
@@ -18,11 +38,17 @@ const AuthContext =
     logout: () => {}
   });
 
+/** Defines the AuthContext's data type. */
 interface LoginData {
+
+  /** The current user's authentication token. */
   token: string | null;
+
+  /** The current user's id. */
   user_id: string | null;
 }
 
+/** Provider for the AuthContext. */
 export const AuthContextProvider:
     React.FC<{children: React.ReactNode}> = (props) => {
   const [loginData, setLoginData] = useState<LoginData>(

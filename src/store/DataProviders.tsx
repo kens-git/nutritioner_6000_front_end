@@ -7,6 +7,7 @@ import { TargetDataProvider } from "./TargetDataContext";
 import { DailyValueDataProvider } from "./DailyValueDataContext";
 import { IntakeDataProvider } from "./IntakeDataContext";
 
+/** Component to collect the DataContext providers in one place. */
 const DataProviders
     : React.FC<{children: React.ReactNode}> = (props) => {
   return (

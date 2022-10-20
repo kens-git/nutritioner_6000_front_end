@@ -7,11 +7,6 @@ export interface ContextDataBase {
   id: Id;
 }
 
-export type LoadCallback<T extends ContextDataBase> = (data: Map<Id, T>) => void;
-
-export type RegisterCallback<T extends ContextDataBase> =
-  (callback: LoadCallback<T>) => void;
-
 export interface DataContextData<T extends ContextDataBase, U> {
   path: string;
   isLoaded: boolean;
@@ -67,10 +62,6 @@ export const CreateDataProvider = <T extends ContextDataBase, U>(
       .then((response) => {
         return response!.data;
       });
-    }
-
-    const registerLoadCallback = (callback: LoadCallback<T>) => {
-      callbackList.current!.push(callback);
     }
 
     const contextData: DataContextData<T, U> = {

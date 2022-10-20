@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6", // TODO: Which version?
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext",
-      "ES2017" // TODO: why wasn't this working without this?
+      "ES2022"
     ],
     "allowJs": true,
     "skipLibCheck": true,

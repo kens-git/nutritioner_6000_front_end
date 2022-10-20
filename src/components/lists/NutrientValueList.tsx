@@ -6,14 +6,25 @@ import NutrientValueInputListItem, { NutrientValueListItemData }
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import nutrientListReducer, { NutrientListActionType } from "./NutrientListReducer";
 
+/** Defines the props accepted by the NutrientValueList. */
 interface NutrientValueListProps {
+
+  /** The initial data to display. */
   data: ConsumableNutrient[];
+
+  /**
+   * Function to call when the list is modified.
+   * 
+   * @param nutrients The updated list of nutrients.
+   */
   onListUpdate: (nutrients: ConsumableNutrient[]) => void;
+  
+  /** CSS classes applied to the component. */
   className?: string;
 }
 
+/** Component for displaying and modifying a list of nutrient-value pairs. */
 const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
-  const nutrientCtx = useContext(NutrientDataContext);
   const [listState, listDispatch] = useReducer(nutrientListReducer, props.data);
 
   const onItemAdded = (data: NutrientValueListItemData) => {

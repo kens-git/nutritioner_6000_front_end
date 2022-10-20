@@ -1,17 +1,38 @@
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 
+/** Defines the possible actions that can be performed using the nutrientListReducer. */
 export enum NutrientListActionType {
+
+  /** The provided payload should be added to the list. */
   ADD,
+
+  /** The list is to be emptied. */
   CLEAR,
+
+  /** The provided payload identifies any item(s) to be removed. */
   REMOVE,
+
+  /** The provided payload should override any existing items in the list. */
   SET
 };
 
+/** Defines the action type for the nutrientListReducer. */
 export interface NutrientListAction {
+
+  /** The action type. */
   type: NutrientListActionType;
+  
+  /** The action payload. */
   payload: any; // TODO: type
 }
 
+/**
+ * Implements a reducer for manipulating a list of ConsumableNutrients.
+ * 
+ * @param state The current state of the list.
+ * @param action The action to perform.
+ * @returns The updated state.
+ */
 const nutrientListReducer = (state: ConsumableNutrient[],
     action: NutrientListAction): ConsumableNutrient[] => {
   switch(action.type) {

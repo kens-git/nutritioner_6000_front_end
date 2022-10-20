@@ -1,34 +1,49 @@
-import { useContext, useEffect, useReducer } from "react";
-import NutrientDataContext from "../../store/NutrientDataContext";
+import { useEffect, useReducer } from "react";
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import NutrientValueInputListItem, { NutrientValueListItemData }
   from '../lists/NutrientValueInputListItem';
 import NutrientValueLabelListItem from './NutrientValueLabelListItem';
 import SectionHeader from "../ui/SectionHeader";
 import { DataContextData } from '../../store/DataContext';
-import Target from '../../types/Target';
 import Id from "../../types/Id";
-import { getLatest } from "../../utility/context_utilities";
 import useFormattedDataContextData from '../../hooks/FormattedDataContextData';
 import nutrientListReducer, { NutrientListActionType } from './NutrientListReducer';
 
-interface ContextData {
-  context: React.Context<DataContextData<any, any>>;
-  formatter: (data: Map<Id, any>) => ConsumableNutrient[];
-}
+/** Defines the props accepted by the RemoteNutrientValueList. */
+interface RemoteNutrientValueListProps {
 
-interface NutrientValueListProps {
+  /** The list's displayed title. */
   title: string;
+
+  /** The lists's displayed description. */
   description: string;
-  contextData: ContextData;
+
+  /** The DataContext to load data from. */
+  context: React.Context<DataContextData<any, any>>;
+
+  /** Function used to retrieve the DataContext's data as a list. */
+  formatter: (data: Map<Id, any>) => ConsumableNutrient[];
+
+  /**
+   * Function to call when the list is modified.
+   * 
+   * @param nutrients The updated list of nutrients.
+   */
   onListUpdate: (nutrients: ConsumableNutrient[]) => void;
+
+  /** CSS classes applied to the component. */
   className?: string;
 }
 
-const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
+/**
+ * Component for displaying and modifying a list of nutrient-value pairs,
+ * with the initial data being provided by a remote data source.
+ */
+const RemoteNutrientValueList: React.FC<RemoteNutrientValueListProps> =
+    (props) => {
   const [listState, listDispatch] = useReducer(nutrientListReducer, []);
   const nutrientData =
-    useFormattedDataContextData(props.contextData.context, props.contextData.formatter);
+    useFormattedDataContextData(props.context, props.formatter);
 
   const onItemAdded = (nutrient: NutrientValueListItemData) => {
     listDispatch({
@@ -80,4 +95,4 @@ const NutrientValueList: React.FC<NutrientValueListProps> = (props) => {
   );
 }
 
-export default NutrientValueList;
+export default RemoteNutrientValueList;

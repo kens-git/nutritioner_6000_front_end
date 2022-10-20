@@ -51,10 +51,8 @@ const DailyValueForm: React.FC<{}> = (props) => {
   return (
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <RemoteNutrientValueList className='col-span-2'
-        contextData={{
-          context: DailyValueDataContext,
-          formatter: formatDailyValueData
-        }}
+        context={DailyValueDataContext}
+        formatter={formatDailyValueData}
         onListUpdate={setCurrentNutrientList}
         title='Daily Values'
         description={DESCRIPTION} />

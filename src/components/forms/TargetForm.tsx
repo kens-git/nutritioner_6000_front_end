@@ -51,10 +51,8 @@ const TargetForm: React.FC<{}> = (props) => {
   return (
     <form onSubmit={onSubmit} className='max-w-lg grid grid-cols-2 gap-2'>
       <RemoteNutrientValueList className='col-span-2'
-        contextData={{
-          context: TargetDataContext,
-          formatter: formatTargetData
-        }}
+        context={TargetDataContext}
+        formatter={formatTargetData}
         onListUpdate={setCurrentNutrientList}
         title='Targets' description={DESCRIPTION} />
       <label htmlFor='target-name'>Name</label>

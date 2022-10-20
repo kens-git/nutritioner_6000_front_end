@@ -1,14 +1,31 @@
 import { button_classes } from '../tailwind_classes';
 
+/** The props accepted by the NutrientValueLabelListItem. */
 interface NutrientValueLabelListItemProps {
+
+  /** The nutrient name to display. */
   name: string;
+  
+  /** The nutrient's amount. */
   value: number;
+  
+  /** The nutrient's unit */
   unit: string;
+  
+  /** The index of the item. */
   index: number;
+  
+  /**
+   * Function to call when the component's remove button is clicked.
+   * 
+   * @param index The index of the removed item.
+  */
   onRemove: (index: number) => void;
 }
 
-const NutrientValueLabelListItem: React.FC<NutrientValueLabelListItemProps> = (props) => {
+/** A component for displaying a nutrient name and it's associated amount. */
+const NutrientValueLabelListItem: React.FC<NutrientValueLabelListItemProps> =
+    (props) => {
   const onRemove = (event: any) => {
     event.preventDefault();
     props.onRemove(props.index);

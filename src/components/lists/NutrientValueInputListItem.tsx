@@ -8,16 +8,30 @@ import { button_classes, form_classes, input_classes }
 import DailyValueDataContext from '../../store/DailyValueDataContext';
 import { getLatest } from '../../utility/context_utilities';
 
+/** Defines the data represented by a NutrientValueList item. */
 export interface NutrientValueListItemData {
+
+  /** The represented Nutrient. */
   nutrient: Nutrient;
+
+  /** The amount of the represented Nutrient. */
   value: number;
 }
 
+/** Defines the props accepted by the NutrientValueInputListItem. */
 interface NutrientValueInputListItemProps {
+
+  /** Determines if the daily value percentage values can be input. */
   isDVShown: boolean;
+
+  /**
+   * Function to call when the list item is submitted.
+   * @param data The submitted data.
+  */
   onSubmit: (data: NutrientValueListItemData) => void;  
 }
 
+/** A component for inputting a nutrient and an associated amount. */
 const NutrientValueInputListItem:
     React.FC<NutrientValueInputListItemProps> = (props) => {
   const valueRef = useRef<HTMLInputElement>(null);

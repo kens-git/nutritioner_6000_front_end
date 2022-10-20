@@ -6,6 +6,7 @@ import NewNutrientForm from "../components/forms/NewNutrientForm";
 import NewUnitForm from "../components/forms/NewUnitForm";
 import SectionHeader from "../components/ui/SectionHeader";
 
+/** Component displaying a page for adding new types. */
 const AddPage: React.FC<{}> = (props) => {
   return (
     <>

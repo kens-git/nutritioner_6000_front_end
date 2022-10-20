@@ -8,6 +8,7 @@ import LoginResponse from '../types/response/LoginResponse';
 import { button_classes, input_classes }
   from '../components/tailwind_classes';
 
+/** Component displaying the login page. */
 const LoginPage: React.FC<{}> = (props) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

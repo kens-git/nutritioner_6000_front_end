@@ -4,6 +4,7 @@ import DailyValueForm from '../components/forms/DailyValueForm';
 import TargetForm from '../components/forms/TargetForm';
 import AuthContext from '../store/AuthContext';
 
+/** Component displaying a user's profile page. */
 const ProfilePage: React.FC<{}> = (props) => {
   const authCtx = useContext(AuthContext);
 

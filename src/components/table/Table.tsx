@@ -2,12 +2,14 @@ import { useContext } from 'react';
 import ConsumableNutrient from "../../types/ConsumableNutrient";
 import Intake from "../../types/Intake";
 import Nutrient from "../../types/Nutrient";
+import Target from '../../types/Target';
 import NutrientDataContext from "../../store/NutrientDataContext";
 import TargetDataContext from '../../store/TargetDataContext';
 import { Columns, ColumnIndex, NutrientId, Row } from './types';
 import Header from './Header';
 import IntakeRow from './IntakeRow';
 import InfoRow, { extractTarget, extractTotal }  from './InfoRow';
+import { getLatest } from '../../utility/context_utilities';
 
   // TODO: when to use types, return types?
   //       when to omit?
@@ -53,14 +55,17 @@ const sort_nutrients = (nutrients: Nutrient[]) => {
 }
 
 const get_column_data = (nutrients: Nutrient[],
-    targets: Map<number, ConsumableNutrient>) => {
+    targets: Target | undefined) => {
   const sorted_nutrients = sort_nutrients(nutrients);
+  const target_nutrients =
+    new Map(targets?.nutrients.map(consumable_nutrient =>
+      [consumable_nutrient.nutrient.id, consumable_nutrient]));
   const columns: Columns = {
     nutrient_map: new Map<NutrientId, ColumnIndex>(),
     details: []};
   for(const [index, nutrient] of sorted_nutrients.entries()) {
     columns.nutrient_map.set(nutrient.id, index);
-    const target_nutrient = targets.get(nutrient.id);
+    const target_nutrient = target_nutrients.get(nutrient.id);
     columns.details.push({
       nutrient_id: nutrient.id,
       name: nutrient.name.name + ' (' +
@@ -84,7 +89,7 @@ const Table: React.FC<TableProps> = (props) => {
     return <p>Waiting for data...</p>
   }
   const columns = get_column_data(
-    Array.from(nutrientCtx.data.values()), targetCtx.data);
+    Array.from(nutrientCtx.data.values()), getLatest(targetCtx.data));
   const row_data = get_row_data(columns, props.data);
   if(row_data.length === 0) { // TODO: inline
     return (

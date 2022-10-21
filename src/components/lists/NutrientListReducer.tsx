@@ -3,16 +3,23 @@ import ConsumableNutrient from "../../types/ConsumableNutrient";
 /** Defines the possible actions that can be performed using the nutrientListReducer. */
 export enum NutrientListActionType {
 
-  /** The provided payload should be added to the list. */
+  /**
+   * The provided nutrient should be appended to the list.
+   * If the nutrient already exists in the state, its value
+   * is added to the value of the existing nutrient.
+   */
   ADD,
 
   /** The list is to be emptied. */
   CLEAR,
 
-  /** The provided payload identifies any item(s) to be removed. */
+  /** The provided nutrient is to be removed from the list. */
   REMOVE,
 
-  /** The provided payload should override any existing items in the list. */
+  /**
+   * The provided nutrients should override any existing nutrients
+   * in the list.
+   */
   SET
 };
 

@@ -1,9 +1,17 @@
+import { DataContextData } from "./store/DataContext";
 import Consumable from "./types/Consumable";
 import ConsumableCategory from "./types/ConsumableCategory";
 import ConsumableNutrient from "./types/ConsumableNutrient";
 import DailyValue from './types/DailyValue';
+import Id from "./types/Id";
+import Intake from "./types/Intake";
 import Name from "./types/Name";
+import NewDailyValue from "./types/new/NewDailyValue";
+import NewIntake from "./types/new/NewIntake";
+import NewNutrient from "./types/new/NewNutrient";
+import NewTarget from "./types/new/NewTarget";
 import Nutrient from "./types/Nutrient";
+import Target from "./types/Target";
 import Unit from "./types/Unit";
 
 export const Name1: Name = {
@@ -136,4 +144,81 @@ export const DailyValue1: DailyValue = {
     ConsumableNutrient2,
     ConsumableNutrient3
   ]
+}
+
+export const Intake1: Intake = {
+  id: 1,
+  timestamp: new Date(2022, 1, 1, 0, 0, 0, 0),
+  consumable: Consumable1,
+  serving_size: 1
+}
+
+export const Intake2: Intake = {
+  id: 1,
+  timestamp: new Date(2022, 1, 1, 0, 0, 0, 0),
+  consumable: Consumable2,
+  serving_size: 10
+}
+
+export const Target1: Target = {
+  id: 1,
+  timestamp: new Date(2022, 1, 1, 0, 0, 0, 0),
+  name: Name1,
+  description: '',
+  nutrients: [
+    ConsumableNutrient1,
+    ConsumableNutrient2
+  ]
+}
+
+export const getTestTargetContextData =
+  (): DataContextData<Target, NewTarget> => {
+    return{
+      path: 'null',
+      isLoaded: true,
+      isPreloaded: true,
+      data: new Map<Id, Target>([Target1].map(
+        value => [value.id, value])),
+      add: (value: NewTarget) => { return new Promise(resolve => {}); },
+      fetch: (query_params: any) => { return new Promise(resolve => {}); }
+  }
+}
+
+export const getTestIntakeContextData =
+  (): DataContextData<Intake, NewIntake> => {
+    return {
+      path: 'null',
+      isLoaded: true,
+      isPreloaded: true,
+      data: new Map<Id, Intake>([Intake1, Intake2].map(
+        intake => [intake.id, intake])),
+      add: (intake: NewIntake) => { return new Promise(resolve => {}); },
+      fetch: (query_params: any) => { return new Promise(resolve => {}); }
+  }
+}
+
+export const getTestDailyValueContextData =
+  (): DataContextData<DailyValue, NewDailyValue> => {
+    return{
+      path: 'null',
+      isLoaded: true,
+      isPreloaded: true,
+      data: new Map<Id, DailyValue>([DailyValue1].map(
+        value => [value.id, value])),
+      add: (value: NewDailyValue) => { return new Promise(resolve => {}); },
+      fetch: (query_params: any) => { return new Promise(resolve => {}); }
+  }
+}
+
+export const getTestNutrientContextData =
+  (): DataContextData<Nutrient, NewNutrient> => {
+    return {
+      path: 'null',
+      isLoaded: true,
+      isPreloaded: true,
+      data: new Map<Id, Nutrient>([Nutrient1, Nutrient2, Nutrient3].map(
+        nutrient => [nutrient.id, nutrient])),
+      add: (nutrient: NewNutrient) => { return new Promise(resolve => {}); },
+      fetch: (query_params: any) => { return new Promise(resolve => {}); }
+  }
 }

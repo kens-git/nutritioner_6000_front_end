@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import NutrientValueList from './NutrientValueList';
-import { DailyValue1, Nutrient1, Nutrient2, Nutrient3 }
-  from '../../test_data';
+import { DailyValue1, Nutrient1, Nutrient2, Nutrient3, getTestDailyValueContextData,
+  getTestNutrientContextData} from '../../test_data';
 import NewNutrient from '../../types/new/NewNutrient';
 
 import { act } from 'react-dom/test-utils';
@@ -16,45 +16,19 @@ import NewDailyValue from '../../types/new/NewDailyValue';
 
 import userEvent from '@testing-library/user-event';
 
-const getTestDailyValueContextData = (): DataContextData<DailyValue, NewDailyValue> => {
-  return{
-    path: 'null',
-    isLoaded: true,
-    isPreloaded: true,
-    data: new Map<Id, DailyValue>([DailyValue1].map(
-      value => [value.id, value])),
-    add: (value: NewDailyValue) => { return new Promise(resolve => {}); },
-    fetch: (query_params: any) => { return new Promise(resolve => {}); }
-  }
-}
-
-const getTestNutrientContextData = (): DataContextData<Nutrient, NewNutrient> => {
-  return {
-    path: 'null',
-    isLoaded: true,
-    isPreloaded: true,
-    data: new Map<Id, Nutrient>([Nutrient1, Nutrient2, Nutrient3].map(
-      nutrient => [nutrient.id, nutrient])),
-    add: (nutrient: NewNutrient) => { return new Promise(resolve => {}); },
-    fetch: (query_params: any) => { return new Promise(resolve => {}); }
-  }
-}
-
 describe('NutrientValueList', () => {
   test('add', async () => {
     const mockListUpdate = jest.fn();
-    act(() => {
-      render(
-        <DailyValueDataContext.Provider value={getTestDailyValueContextData()}>
-          <NutrientDataContext.Provider value={getTestNutrientContextData()}>
-            <NutrientValueList
-              data={[]}
-              onListUpdate={mockListUpdate}
-            />
-          </NutrientDataContext.Provider>
-        </DailyValueDataContext.Provider>
-      );
-    });
+    render(
+      <DailyValueDataContext.Provider value={getTestDailyValueContextData()}>
+        <NutrientDataContext.Provider value={getTestNutrientContextData()}>
+          <NutrientValueList
+            data={[]}
+            onListUpdate={mockListUpdate}
+          />
+        </NutrientDataContext.Provider>
+      </DailyValueDataContext.Provider>
+    );
     expect(screen.getByText(/no data to display./i)).toBeInTheDocument();
     expect(mockListUpdate).toBeCalledTimes(1);
     const select = screen.getByRole<HTMLSelectElement>('combobox');

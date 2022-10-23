@@ -95,7 +95,9 @@ const NutrientValueInputListItem:
       {inputError && <p>{inputError}</p>}
       <Select onChange={onInputChange} id='nutrient-value-nutrient-name'
         name='name' dataContext={NutrientDataContext} extractItem={extractNutrientItem} />
-      <input className={input_classes + ' w-28'} ref={valueRef} onKeyPress={onValueInputKey} name='value' type='number'
+      <input className={input_classes + ' w-28'} ref={valueRef}
+        id='nutrient-value-value'
+        onKeyPress={onValueInputKey} name='value' type='number'
         placeholder={`Value (${nutrient ? nutrient!.unit.name.abbreviation : ''})`} />
       {props.isDVShown &&
         <>

@@ -1,6 +1,7 @@
 import Consumable from "./types/Consumable";
 import ConsumableCategory from "./types/ConsumableCategory";
 import ConsumableNutrient from "./types/ConsumableNutrient";
+import DailyValue from './types/DailyValue';
 import Name from "./types/Name";
 import Nutrient from "./types/Nutrient";
 import Unit from "./types/Unit";
@@ -115,3 +116,24 @@ export const Consumable2: Consumable = {
     ConsumableNutrient3
   ]
 };
+
+export const Consumable3: Consumable = {
+  id: 3,
+  name: 'Consumable3',
+  category: Category2,
+  unit: Unit2,
+  reference_size: 1,
+  nutrients: [
+    ConsumableNutrient1,
+    ConsumableNutrient3
+  ]
+};
+
+export const DailyValue1: DailyValue = {
+  id: 1,
+  nutrients: [
+    ConsumableNutrient1,
+    ConsumableNutrient2,
+    ConsumableNutrient3
+  ]
+}

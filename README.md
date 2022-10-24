@@ -4,15 +4,15 @@
 <p>The app primarily serves as a personal introduction into full stack web development beyond trivial todo apps, and is meant to provide a basis of comparison when developing future projects as well as when exploring projects and ideas from other developers. Overall, the app does what it's expected to do, but, there's is still a lot of room for improvement.</p>
 <details>
   <summary>Home Page Preview</summary>
-  ![](previews/home.png)
+  <img src='previews/home.png' />
 </details>
 <details>
   <summary>Add Page Preview</summary>
-  ![](previews/add.png)
+  <img src='previews/add.png' />
 </details>
 <details>
   <summary>Profile Page Preview</summary>
-  ![](previews/profile.png)
+  <img src='previews/profile.png' />
 </details>
 <h1>Improvements Since the Original Nutrition Tracker</h1>
 <details>

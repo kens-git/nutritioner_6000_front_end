@@ -22,18 +22,14 @@
   <p>Lastly, if a nutrient was added the UI would need to be updated to add an input, table column, and other display components to properly support the new nutrient.</p>
   <p>Nutritioner 6000 handles these issues by treating a consumable as having a dynamic amount of nutrients in the database and in the UI, meaning users can enter custom nutrient types without requiring any modifications to the implementation. This also simplifies the implementation by allowing nutrients to be treated generically as a list.</p>
 </details>
-<br>
 <details>
   <summary>Targets Displayed with Daily Intake</summary>
   <p>Instead of comparing targets to intakes ambiguously through a progress bar, the target nutrient values are displayed as a row in the intake table. Additionally, a color gradient is displayed in the 'totals' row to show at a glance how the daily intake for a nutrient compares to the target value.
 </details>
-<br>
 <p>As a consequence of being a web app, the software is available anywhere there's a browser. Or cURL, if that's your thing.</p>
 <p>Authentication, allowing multiple users.</p>
 <p>Users can enter custom units, categories, and nutrients.</p>
 <p>Users can define their own daily values.</p>
-
-<br>
 <h1>Remaining TODOs</h1>
 <ul>
   <li>JWT tokens either don't expire, or have too long of a lifetime. For this app, they would ideally expire after the session.</li>

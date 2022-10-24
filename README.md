@@ -114,4 +114,5 @@
   <p>I overlooked just how beneficial a proper development setup would be. I had VS Code set up for developing and debugging Python and Django, and Typescript and React, but there was a number of times where I struggled to pinpoint where an issue occurred and what the state of the app was at a particular moment. I leaned on console logging a lot, but there must be much better tooling available to pinpoint and fix various issues. The only external tool I used aside from the browser was Postman, for testing how the API functioned and what formats it gave and expected.</p>
   <p>As mentioned above, the project would benefit from a standardized coding style and a linter.</p>
   <p>I was sometimes at a loss for where to put certain files, so standardizing the project directory structure would benefit maintenance.</p>
+  <p>All work was done out of the main branch. This worked because the latest progress on the project represented the latest version, but in the future new features and bug fixes should be merged from separate branches.</p>
 </details>

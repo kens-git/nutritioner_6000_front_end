@@ -102,7 +102,7 @@
 <details>
   <summary>Testing</summary>
   <p>Testing would need to be greatly expanded, and in this project there's not much - if anything - that wouldn't benefit from having tests so full test coverage would be ideal. As mentioned above the lack of accessibility made testing difficult and I was okay with manual testing for verification on a project I've done before, so tests were done mainly to gain some experience with them and to see some of the challenges specific to testing a web UI.</p>
-  <p>I didn't use TDD when working on desktop app because it was simpler to test classes and functions as a result of the simpler interfaces (in terms of controlling access) they present. It may be worth exploring TDD for components because simplicity of testing may influence a better component design.</p>
+  <p>I didn't use TDD when working on desktop apps because it was simpler to test classes and functions as a result of the simpler interfaces (in terms of controlling access) they present. It may be worth exploring TDD for components because simplicity of testing may influence a better component design.</p>
   <p>The few tests I did were basic unit tests to assert a component was displaying what was expected, but testing should be expanded to include other types of tests (e.g., integration), and at different levels of granularity.</p>
 </details>
 <details>

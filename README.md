@@ -40,7 +40,7 @@
 </ul>
 
 <h1>Pre-Post-Mortem and Next Steps</h1>
-<p>The project was built using Django, Django Rest Framework and React but I intentionally kept other external dependencies and 3rd party code to a minimum so I would be exposed to the types of problems that they attempt to solve, and what problems they abstract. I believe if I just pulled in a ton of dependencies and called it a day I wouldn't really understand the role they play beyond a superficial level.</p>
+<p>The project was built using Django, Django REST Framework and React but I intentionally kept other external dependencies and 3rd party code to a minimum so I would be exposed to the types of problems that they attempt to solve, and what problems they abstract. I believe if I just pulled in a ton of dependencies and called it a day I wouldn't really understand the role they play beyond a superficial level.</p>
 <p>Overall, maintainability is a primary goal on any project and for a basic CRUD app this one does the job in a simple and straightforward way, but may suffer from fragility if dependencies between data were introduced, because the DataContext was designed to work independently from the other instances of it, aside from the AuthContext.</p>
 <p>Specific things I will consider when working on my next project are:</p></li>
 <details>

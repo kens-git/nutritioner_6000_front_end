@@ -1,5 +1,5 @@
 <h1>The Project</h1>
-<p>The Nutritioner 6000 (patent pending) is an improvement of the original <a href='https://github.com/kens-git/nutrition_tracker/'>Nutrition Tracker</a> program that is used to track and display a user's daily nutritional intake. It's comprised of a React front-end (this repo), and a <a href='https://github.com/kens-git/nutritioner_6000_back_end/'>Django back end</a>, and will be (as of October 23rd, 2022) hosted on Debian using Nginx, Gunicorn, and Postgres.</p>
+<p>The Nutritioner 6000 (patent pending) is an improvement of the original <a href='https://github.com/kens-git/nutrition_tracker/'>Nutrition Tracker</a> program that is used to track and display a user's daily nutritional intake. It's comprised of a React front-end (this repo), and a <a href='https://github.com/kens-git/nutritioner_6000_back_end/'>Django back end</a>, and is hosted using Debian, Nginx, Gunicorn, and Postgres.</p>
 <p>The app's UI design and back end API were designed under the assumption that an instance of it would be shared with a small number of users, which influenced the design of the models (mainly controlling what data a user can delete) and UI components, where it's expected that data will reasonably fit into dropdown components and tables without limiting the displayed data.</p>
 <p>The app primarily serves as a personal introduction into full stack web development beyond trivial todo apps, and is meant to provide a basis of comparison when developing future projects as well as when exploring projects and ideas from other developers. Overall, the app does what it's expected to do, but, there's is still a lot of room for improvement.</p>
 <details>
@@ -37,6 +37,9 @@
   <li>The functionality exists on the back end to update certain data, but for brevity they were left out on the front end.</li>
   <li>For usability, the data displayed in the Select component should be sorted (plus other UX improvements described below).</li>
   <li>The screenshots in this document are displaying cartoonish test values that should be replaced with more realistic values.</li>
+  <li>Manually entering URLs and refreshing the page cause a bad request.</li>
+  <li>Specific daily values without an associated intake for the displayed date won't be shown in the table.</li>
+  <li>Prevent a refresh if un-submitted data is entered into a form.</li>
 </ul>
 
 <h1>Pre-Post-Mortem and Next Steps</h1>

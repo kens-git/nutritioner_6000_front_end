@@ -37,7 +37,6 @@
   <li>The functionality exists on the back end to update certain data, but for brevity they were left out on the front end.</li>
   <li>For usability, the data displayed in the Select component should be sorted (plus other UX improvements described below).</li>
   <li>The screenshots in this document are displaying cartoonish test values that should be replaced with more realistic values.</li>
-  <li>Manually entering URLs and refreshing the page cause a bad request.</li>
   <li>Specific daily values without an associated intake for the displayed date won't be shown in the table.</li>
   <li>Prevent a refresh if un-submitted data is entered into a form.</li>
 </ul>
